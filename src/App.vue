@@ -32,7 +32,6 @@
           </div>
 
       </div>
-      <transition name="fade">
       <div class="container-fluid hidden-sm hidden-md hidden-lg " style="background:#324157; margin-top:2px" v-show="show_xs_menu" >
           <div class="row">
               <div class="col-xs-12" style="height:280px" >
@@ -46,7 +45,7 @@
               </div>
           </div>
       </div>
-      </transition>
+
     <nav class="navbar nav-default nav-fixed-up" style="background:#eee" v-show="false">
       <div class="container">
         <div class="navbar-header">
@@ -98,11 +97,8 @@
                       :on-icon-click="handleIconClick">
               </el-input>
           </div>
-          <img class="img-responsive" src="./assets/images/bg01.png"style="width:100%;min-height:300px;max-height:500px;">
+          <img class="img-responsive" src="./assets/images/bg01.png"style="width:100%;min-height:160px;max-height:500px;">
       </div>
-    <div class="footer navbar">
-	   
-  	</div>
       <time-con></time-con>
 
       <movie></movie>

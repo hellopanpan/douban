@@ -1,5 +1,5 @@
 <template>	
-	<div class="container" style="padding-bottom:40px;">
+	<div class="container" style="padding-bottom:40px;padding-top:20px">
 		<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12 " style="padding-bottom:20px">
 		<h2 style="padding-top:0;margin-top:0px;font-family: Arial, Helvetica, sans-serif;">豆瓣時間</h2>
 		</div>
@@ -12,8 +12,8 @@
 				</el-breadcrumb>
 			</div>
 			<div class="col-md-3 col-sm-4 col-xs-6 pb-10" v-for="item in data">
-				<div class="" style="width:100%;height:360px;border:1px solid #eee ;border-radius:2px;padding:10px">
-					<img :src="item.picsrc" style="width:100%">
+				<div class="" style="width:100%;height:100%;border:1px solid #eee ;border-radius:2px;padding:10px">
+					<img :src="item.picsrc" style="width:100%;max-height:70%">
 					<p class="text-primary" style="padding:10px 0;height:50px;overflow: hidden">{{item.title}}</p>
 					<el-badge value="new" class="item">
 						<el-button size="small">{{item.type}}</el-button>
@@ -59,10 +59,15 @@
 	}
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 	@padding-size:10px;
 	.pb-10{
 		padding-bottom: @padding-size;
+	}
+	@media screen and (max-width: 608px) {
+		.container {
+			padding:0;
+		}
 	}
 
 </style>
