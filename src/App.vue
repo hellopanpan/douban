@@ -20,7 +20,7 @@
                   <div class="col-md-2 col-sm-2 hidden-xs" style="height:60px;line-height:60px;position:relative">
                       <img src="./assets/images/github-01.png" style="position: absolute;top:10px;right:0;max-height:40px;max-width:40px;display:inline-block">
                   </div>
-                  <div class="col-xs-2 hidden-sm"style="postion:relative">
+                  <div class="col-xs-2 hidden-sm hidden-md hidden-lg"style="postion:relative">
                       <div style="position: absolute;top:20px;right:10px;cursor:pointer"@click="changeTheIcon">
                           <span class="sr-only">切换导航</span>
                           <span class="icon-bar"></span>
@@ -32,7 +32,7 @@
           </div>
 
       </div>
-      <div class="container-fluid hidden-sm" style="background:#324157; margin-top:2px" v-show="show_xs_menu" >
+      <div class="container-fluid hidden-sm hidden-md hidden-lg " style="background:#324157; margin-top:2px" v-show="show_xs_menu" >
           <div class="row">
               <div class="col-xs-12" style="height:280px" >
                   <el-menu theme="dark" :default-active="activeIndex" class="el-menu-demo" @select="handleSelect">
@@ -82,25 +82,39 @@
               <span class="input-group-btn">
                 <button class="btn"><span class="glyphicon glyphicon-zoom-in"></span></button>>
               </span>
-
           </div>
         </form>
       </div>
      </nav>
     <transition name="fade"><router-view :totle="totle"></router-view></transition>
-      <div class="container-fluid"style='width:100%;height:300px;background:url("./assets/images/bg01.png") no-repeat'>
-        ````
+      <div class="container"style="width:100%;padding:0;position:relative">
+          <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6" style="position: absolute;z-index: 2;top:40%;left:50%;transform: translate(-50%,0)">
+              <el-input
+                      placeholder="请输入搜索内容"
+                      icon="search"
+                      v-model="input2"
+                      :on-icon-click="handleIconClick">
+              </el-input>
+          </div>
+          <img class="img-responsive" src="./assets/images/bg01.png"style="width:100%;min-height:300px;max-height:500px;">
       </div>
     <div class="footer navbar">
 	   
   	</div>
+      <time-con></time-con>
+
+      <movie></movie>
+
  </div>
 </template>
 
 <script>
 import Navview from './components/nav.vue'
 import ContentView from './components/content.vue'  
-import FllowView from './components/fllowView.vue' 
+import FllowView from './components/fllowView.vue'
+import Movie from './components/movie.vue'
+import TimeCon from './components/time.vue'
+
 import {mapGetters,mapActions} from 'vuex'
 
 export default {
@@ -111,13 +125,16 @@ export default {
           showif: true,
           totle: "App.vue上的数据",
           activeIndex: '1',
-          show_xs_menu: false
+          show_xs_menu: false,
+          input2: ''
       };
   },
   components:{ 
       Navview,
       ContentView,
       FllowView,
+      Movie,
+      TimeCon
       
   },
   methods:{
@@ -126,6 +143,9 @@ export default {
       },
       changeTheIcon: function () {
           this.show_xs_menu= !this.show_xs_menu;
+      },
+      handleIconClick(ev) {
+          console.log(ev);
       }
   },
   computed:mapGetters(['count']),
@@ -136,7 +156,11 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
+    @base: #f938ab;
+    body{
+        font: 12px Helvetica,Arial,sans-serif;
+    }
     .pd-10{padding-right:10px}
     .pr-5{padding-right:5px}
     .pl-100{padding-left:60px}
