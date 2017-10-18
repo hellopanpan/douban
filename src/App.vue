@@ -32,6 +32,7 @@
           </div>
 
       </div>
+      <transition name="fade">
       <div class="container-fluid hidden-sm hidden-md hidden-lg " style="background:#324157; margin-top:2px" v-show="show_xs_menu" >
           <div class="row">
               <div class="col-xs-12" style="height:280px" >
@@ -45,6 +46,7 @@
               </div>
           </div>
       </div>
+      </transition>
     <nav class="navbar nav-default nav-fixed-up" style="background:#eee" v-show="false">
       <div class="container">
         <div class="navbar-header">

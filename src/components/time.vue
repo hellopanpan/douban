@@ -1,71 +1,61 @@
 <template>	
-	<div class="container" style="padding-bottom:40px">
+	<div class="container" style="padding-bottom:40px;">
 		<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12 " style="padding-bottom:20px">
 		<h2 style="padding-top:0;margin-top:0px;font-family: Arial, Helvetica, sans-serif;">豆瓣時間</h2>
 		</div>
-		<div class="col-lg-10 col-md-12 col-sm-12">
-			<div class="col-md-12 " style="padding-bottom:20px">
-				<el-breadcrumb separator="/">
+		<div class="col-lg-10 col-md-12 col-sm-12" style="min-height:600px"  v-loading="loading2" element-loading-text="拼命加载中">
+			<div class="col-md-12 " style="padding-bottom:20px"  >
+				<el-breadcrumb separator="/" >
 					<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
 					<el-breadcrumb-item>豆瓣時間</el-breadcrumb-item>
 					<el-breadcrumb-item>热门专栏</el-breadcrumb-item>
 				</el-breadcrumb>
 			</div>
-			<div class="col-md-3 col-sm-4 col-xs-6 pb-10">
-				<div class="" style="width:100%;border:1px solid #eee ;border-radius:2px;padding:10px">
-					<img src="https://img1.doubanio.com/dae/niffler/niffler/images/50d72036-b010-11e7-a539-0242ac110017.png" style="width:100%">
-					<p class="text-primary">觉知即新生——终止童年创伤的心理修复</p>
+			<div class="col-md-3 col-sm-4 col-xs-6 pb-10" v-for="item in data">
+				<div class="" style="width:100%;height:360px;border:1px solid #eee ;border-radius:2px;padding:10px">
+					<img :src="item.picsrc" style="width:100%">
+					<p class="text-primary" style="padding:10px 0;height:50px;overflow: hidden">{{item.title}}</p>
 					<el-badge value="new" class="item">
-						<el-button size="small">音频专栏</el-button>
+						<el-button size="small">{{item.type}}</el-button>
 					</el-badge>
 				</div>
 			</div>
-			<div class="col-md-3 col-sm-4 col-xs-6 pb-10">
-				<div class="" style="width:100%;border:1px solid #eee ;border-radius:2px;padding:10px">
-					<img src="https://img1.doubanio.com/dae/niffler/niffler/images/50d72036-b010-11e7-a539-0242ac110017.png" style="width:100%">
-					<p class="text-primary">觉知即新生——终止童年创伤的心理修复</p>
-					<el-badge value="new" class="item">
-						<el-button size="small">音频专栏</el-button>
-					</el-badge>
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-4 col-xs-6 pb-10">
-				<div class="" style="width:100%;border:1px solid #eee ;border-radius:2px;padding:10px">
-					<img src="https://img1.doubanio.com/dae/niffler/niffler/images/50d72036-b010-11e7-a539-0242ac110017.png" style="width:100%">
-					<p class="text-primary">觉知即新生——终止童年创伤的心理修复</p>
-					<el-badge value="new" class="item">
-						<el-button size="small">音频专栏</el-button>
-					</el-badge>
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-4 col-xs-6 pb-10">
-				<div class="" style="width:100%;border:1px solid #eee ;border-radius:2px;padding:10px">
-					<img src="https://img1.doubanio.com/dae/niffler/niffler/images/50d72036-b010-11e7-a539-0242ac110017.png" style="width:100%">
-					<p class="text-primary">觉知即新生——终止童年创伤的心理修复</p>
-					<el-badge value="new" class="item">
-						<el-button size="small">音频专栏</el-button>
-					</el-badge>
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-4 col-xs-6 pb-10">
-				<div class="" style="width:100%;border:1px solid #eee ;border-radius:2px;padding:10px">
-					<img src="https://img1.doubanio.com/dae/niffler/niffler/images/50d72036-b010-11e7-a539-0242ac110017.png" style="width:100%">
-					<p class="text-primary">觉知即新生——终止童年创伤的心理修复</p>
-					<el-badge value="new" class="item">
-						<el-button size="small">音频专栏</el-button>
-					</el-badge>
-				</div>
+			<div class="col-md-12" v-if="data.length == 0">
+				<h2>No data</h2>
 			</div>
 		</div>
 	</div>
 </template>
 <script>
+    import Axios from 'axios'
 	export default{
 	    data(){
 	        return{
-	            value2: true
+	            value2: true,
+				data: '',
+                loading2: false
+			}
+		},
+		mounted(){
+			this.getTimeData();
+		},
+		methods:{
+		    getTimeData(){
+		        var vm = this;
+                vm.loading2 = true;
+                Axios
+					.get("/cross/douban/time")
+					.then(function (res) {
+					    vm.loading2 = false;
+                    	 vm.data =  res.data;
+                	})
+					.catch(function () {
+						vm.loading2 = false;
+                    })
 			}
 		}
+
+
 	}
 </script>
 

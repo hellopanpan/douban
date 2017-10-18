@@ -312,6 +312,32 @@ app.get("/data",function(req,res,next){
 	}
 	find(); 
  
+});
+app.get("/douban/time",function(req,res,next){
+    superagent.get("https://www.douban.com/")
+        .end(function (err, sres) {
+            // 常规的错误处理
+            if (err) {
+                return next(err);
+            }
+            // sres.text 里面存储着网页的 html 内容，将它传给 cheerio.load 之后
+            // 就可以得到一个实现了 jquery 接口的变量，我们习惯性地将它命名为 `$`
+            // 剩下就都是 jquery 的内容了
+            var $ = cheerio.load(sres.text);
+            var items = [];
+            $("#anony-time .time-list li").each(function (idx, element) {
+                var $element = $(element);
+                items.push({
+                    piclink: $element.find(".cover listen new ").attr('href'),
+                    picsrc: $element.find("img").attr('src'),
+                    title: $element.find(".title").text(),
+					titlelink: $element.find(".title").attr('href'),
+					type:  $element.find(".type").text()
+                });
+            });
+            res.send(items);
+        });
 })
+
 
 
