@@ -9,7 +9,6 @@
     "eventproxy": "^0.3.4",
     "express": "^4.13.3",
     "koa": "^2.3.0",
-    "loadash": "^1.0.0",
     "moment": "^2.19.1",
     "mongoose": "^4.12.1",
     "request": "^2.83.0",
