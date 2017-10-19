@@ -102,6 +102,7 @@
       <time-con></time-con>
 
       <movie></movie>
+      <music></music>
       <footer-con></footer-con>
 
  </div>
@@ -114,6 +115,7 @@ import FllowView from './components/fllowView.vue'
 import Movie from './components/movie.vue'
 import TimeCon from './components/time.vue'
 import FooterCon from './components/footer.vue'
+import Music from './components/music.vue'
 
 import {mapGetters,mapActions} from 'vuex'
 
@@ -135,7 +137,8 @@ export default {
       FllowView,
       Movie,
       TimeCon,
-      FooterCon
+      FooterCon,
+      Music
   },
   methods:{
       handleSelect(key, keyPath) {
@@ -151,7 +154,8 @@ export default {
   computed:mapGetters(['count']),
   mounted(){
     
-  }
+  },
+
 
 }
 </script>

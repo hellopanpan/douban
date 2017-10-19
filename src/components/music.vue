@@ -1,29 +1,38 @@
-<template>	
+<template>
+	<div class="container-fluid" style="background:#daf9f0;padding-top:20px">
 	<div class="container" style="padding-bottom:40px;padding-top:20px">
 		<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12 " style="padding-bottom:20px">
-		<h2 style="padding-top:0;margin-top:0px;font-family: Arial, Helvetica, sans-serif;">豆瓣時間</h2>
+		<h2 style="padding-top:0;margin-top:0px;font-family: Arial, Helvetica, sans-serif;">豆瓣音樂</h2>
 		</div>
-		<div class="col-lg-10 col-md-12 col-sm-12" style="min-height:600px"  v-loading="loading2" element-loading-text="拼命加载中">
+		<div class="col-lg-10 col-md-12 col-sm-12" style="min-height:400px"  v-loading="loading2" element-loading-text="拼命加载中">
 			<div class="col-md-12 " style="padding-bottom:20px"  >
 				<el-breadcrumb separator="/" >
 					<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-					<el-breadcrumb-item>豆瓣時間</el-breadcrumb-item>
-					<el-breadcrumb-item>热门专栏</el-breadcrumb-item>
+					<el-breadcrumb-item>豆瓣音樂</el-breadcrumb-item>
+					<el-breadcrumb-item>豆瓣新碟榜</el-breadcrumb-item>
 				</el-breadcrumb>
 			</div>
-			<div class="col-md-3 col-sm-4 col-xs-6 pb-10" >
-				<div class="" style="width:100%;height:100%;border:1px solid #eee ;border-radius:2px;padding:10px">
-					<a :href="item.piclink"><img :src="item.picsrc" style="width:100%;max-height:70%"></a>
-					<p class="text-primary" style="padding:10px 0;height:50px;overflow: hidden">{{item.title}}</p>
-					<el-badge value="new" class="item">
-						<el-button size="small">{{item.type}}</el-button>
-					</el-badge>
+			<div class="col-xs-12 col-md-6 col-sm-6 col-lg-4 pb-10" v-for = "(item, key) in data">
+				<div class="" style="width:100%;border:1px solid #fff ;border-radius:2px;padding:10px" >
+					<div class="row">
+						<div class="col-xs-4 ">
+							<a :href="item.piclink"><img :src="item.picsrc" ></a>
+						</div>
+						<div class="col-xs-8">
+							<h4 class="text-primary" style="margin-top:0">{{item.title}}</h4>
+							<p class="text-muted" style="padding-left:5px">{{item.person}}</p>
+							<el-rate v-model="rateNum[key]"></el-rate>
+						</div>
+					</div>
+
 				</div>
 			</div>
+
 			<div class="col-md-12" v-if="data.length == 0">
 				<h2>No data</h2>
 			</div>
 		</div>
+	</div>
 	</div>
 </template>
 <script>
@@ -31,9 +40,11 @@
 	export default{
 	    data(){
 	        return{
+	            value1: 3,
 	            value2: true,
 				data: '',
-                loading2: false
+                loading2: false,
+                rateNum: []
 			}
 		},
 		mounted(){
@@ -44,15 +55,26 @@
 		        var vm = this;
                 vm.loading2 = true;
                 Axios
-					.get("/cross/douban/time")
+					.get("/cross/douban/music")
 					.then(function (res) {
 					    vm.loading2 = false;
                     	 vm.data =  res.data;
+                    	 for(var i = 0;i< vm.data.length;i++){
+                    	     vm.rateNum.push(Math.floor(vm.data[i].rate /10 * 5));
+						 }
                 	})
 					.catch(function () {
 						vm.loading2 = false;
                     })
+			},
+			toRate: function(value){
+                return (value/10 * 5).toFixed(0);
 			}
+		},
+		filters:{
+		    torRate: function (value) {
+				return (value/10 * 5).toFixed(0);
+            }
 		}
 
 
@@ -66,7 +88,9 @@
 	}
 	@media screen and (max-width: 608px) {
 		.container {
+
 			padding:0;
+
 		}
 	}
 

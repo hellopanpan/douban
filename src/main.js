@@ -8,6 +8,7 @@ import Loading from './components/loading'
 import Axios from 'axios'
 import ElementU from "element-ui"
 import 'element-ui/lib/theme-default/index.css'
+import _ from "lodash"
 //关于axios配置
 Vue.use(ElementU);
 
@@ -33,10 +34,17 @@ const router=new VueRouter({
 	routes:routerConfig,
 	scrollBehavior:() =>({y:0})
 });
+Vue.filter("torate", function (value) {
+        //return (value/10 * 5).toFixed(0);
+        return value+ '222';
+    }
+);
 new Vue({
 	store,
 	router,
   el: '#app',
-  render: h => h(App)
+  render: h => h(App),
+
+
 })
  

@@ -1,4 +1,5 @@
-<template>	
+<template>
+	<div class="container-fluid" style="background:#f7f7f7;padding-top:20px">
 	<div class="container" style="padding-bottom:40px">
 		<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12" style="padding-bottom:20px">
 			<h2 style="padding-top:0;margin-top:0px;font-family: Arial, Helvetica, sans-serif;">豆瓣視频</h2>
@@ -11,7 +12,7 @@
 					<el-breadcrumb-item>如是</el-breadcrumb-item>
 				</el-breadcrumb>
 			</div>
-			<div class="col-md-4 col-sm-6 col-xs-6 pb-10" v-for="item in data[0].items">
+			<div class=" col-md-4 col-md-4 col-sm-6 col-xs-6 pb-10" v-for="item in data[0].items">
 				<div class="" style="width:100%;border:1px solid #eee ;border-radius:2px;padding:10px" >
 					<div style="position: relative">
 						<img src="../assets/images/play.png" style="position: absolute;top:50%;left:50%;margin-left:-10px;margin-top:-12px">
@@ -20,7 +21,7 @@
 					<p class="text-primary pt-10 auto-hide02">{{item.title}}</p>
 				</div>
 			</div>
-			<div class="col-md-4 col-sm-6 col-xs-6 pb-10" v-for="item in data[1].items">
+			<div class="col-md-4 col-md-4 col-sm-6 col-xs-6 pb-10" v-for="item in data[1].items">
 				<div class="" style="width:100%;border:1px solid #eee ;border-radius:2px;padding:10px" >
 					<div style="position: relative">
 						<img src="../assets/images/play.png" style="position: absolute;top:50%;left:50%;margin-left:-10px;margin-top:-12px">
@@ -30,6 +31,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 </template>
 <script>
