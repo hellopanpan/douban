@@ -328,7 +328,7 @@ app.get("/douban/time",function(req,res,next){
             $("#anony-time .time-list li").each(function (idx, element) {
                 var $element = $(element);
                 items.push({
-                    piclink: $element.find(".cover listen new ").attr('href'),
+                    piclink: $element.find(".cover").attr('href'),
                     picsrc: $element.find("img").attr('src'),
                     title: $element.find(".title").text(),
 					titlelink: $element.find(".title").attr('href'),

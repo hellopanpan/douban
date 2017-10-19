@@ -102,6 +102,7 @@
       <time-con></time-con>
 
       <movie></movie>
+      <footer-con></footer-con>
 
  </div>
 </template>
@@ -112,6 +113,7 @@ import ContentView from './components/content.vue'
 import FllowView from './components/fllowView.vue'
 import Movie from './components/movie.vue'
 import TimeCon from './components/time.vue'
+import FooterCon from './components/footer.vue'
 
 import {mapGetters,mapActions} from 'vuex'
 
@@ -132,8 +134,8 @@ export default {
       ContentView,
       FllowView,
       Movie,
-      TimeCon
-      
+      TimeCon,
+      FooterCon
   },
   methods:{
       handleSelect(key, keyPath) {

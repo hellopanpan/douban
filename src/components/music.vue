@@ -11,8 +11,7 @@
 					<el-breadcrumb-item>热门专栏</el-breadcrumb-item>
 				</el-breadcrumb>
 			</div>
-			{{data}}
-			<div class="col-md-3 col-sm-4 col-xs-6 pb-10" v-for="item in data">
+			<div class="col-md-3 col-sm-4 col-xs-6 pb-10" >
 				<div class="" style="width:100%;height:100%;border:1px solid #eee ;border-radius:2px;padding:10px">
 					<a :href="item.piclink"><img :src="item.picsrc" style="width:100%;max-height:70%"></a>
 					<p class="text-primary" style="padding:10px 0;height:50px;overflow: hidden">{{item.title}}</p>
