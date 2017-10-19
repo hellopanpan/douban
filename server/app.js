@@ -5,6 +5,7 @@ var app = express();
 var superagent= require('superagent');
 var cheerio= require('cheerio');
 var url = require('url');
+var bodyParser = require('body-parser');
 
 var eventproxy=require('eventproxy');
 
@@ -37,7 +38,7 @@ var User = mongoose.model("UserNew04",UserSchema);//table
 app.listen(3001, function (req, res) {
   console.log('app is running at port 3000');
 });
-
+app.use(bodyParser.json());
 var cnodeUrl = 'https://cnodejs.org/';
 app.get('/', function (req, res, next) {
   // 用 superagent 去抓取 https://cnodejs.org/ 的内容
@@ -320,9 +321,7 @@ app.get("/douban/time",function(req,res,next){
             if (err) {
                 return next(err);
             }
-            // sres.text 里面存储着网页的 html 内容，将它传给 cheerio.load 之后
-            // 就可以得到一个实现了 jquery 接口的变量，我们习惯性地将它命名为 `$`
-            // 剩下就都是 jquery 的内容了
+
             var $ = cheerio.load(sres.text);
             var items = [];
             $("#anony-time .time-list li").each(function (idx, element) {
@@ -346,9 +345,7 @@ app.get("/douban/video",function(req,res,next){
             if (err) {
                 return next(err);
             }
-            // sres.text 里面存储着网页的 html 内容，将它传给 cheerio.load 之后
-            // 就可以得到一个实现了 jquery 接口的变量，我们习惯性地将它命名为 `$`
-            // 剩下就都是 jquery 的内容了
+
             items.push(JSON.parse(sres.text));
             superagent.get("https://m.douban.com/rexxar/api/v2/muzzy/columns/10006/items?start=0&count=3")
                 .end(function (err, sres) {
@@ -370,9 +367,7 @@ app.get("/douban/music",function(req,res,next){
             if (err) {
                 return next(err);
             }
-            // sres.text 里面存储着网页的 html 内容，将它传给 cheerio.load 之后
-            // 就可以得到一个实现了 jquery 接口的变量，我们习惯性地将它命名为 `$`
-            // 剩下就都是 jquery 的内容了
+
             var $ = cheerio.load(sres.text);
             var items = [];
             $("#anony-music .album-list li").each(function (idx, element) {
@@ -386,6 +381,23 @@ app.get("/douban/music",function(req,res,next){
                     rate:  $element.find(".rating i").text()
                 });
             });
+            res.send(items);
+        });
+});
+app.post("/douban/video/con",function(req,res,next){
+	var obj = req.body;
+	console.log(obj);
+	var objUrl = obj.url;
+    superagent.get(objUrl)
+        .end(function (err, sres) {
+            // 常规的错误处理
+            if (err) {
+                return next(err);
+            };
+            console.log(sres.text);
+            var $ = cheerio.load(sres.text);
+            var items = $(".video-wrapper .video-player-wrapper video").attr("src");
+            console.log(items);
             res.send(items);
         });
 });
