@@ -386,7 +386,6 @@ app.get("/douban/music",function(req,res,next){
 });
 app.post("/douban/video/con",function(req,res,next){
 	var obj = req.body;
-	console.log(obj);
 	var objUrl = obj.url;
     superagent.get(objUrl)
         .end(function (err, sres) {
@@ -394,13 +393,39 @@ app.post("/douban/video/con",function(req,res,next){
             if (err) {
                 return next(err);
             };
-            console.log(sres.text);
             var $ = cheerio.load(sres.text);
-            var items = $(".video-wrapper .video-player-wrapper video").attr("src");
-            console.log(items);
-            res.send(items);
+            var item = {
+                video: $(".video-wrapper .video-player video").attr('src'),
+				title: $(".note-header h1").text(),
+				introduction: $(".note .introduction p").text()
+			}
+            console.log(item);
+            res.send(item);
         });
 });
-
+app.get("/douban/video/search",function(req,res,next){
+    superagent.get("https://www.douban.com/j/search?q=%E6%88%91&start=20&cat=1002")
+        .end(function (err, sres) {
+            // 常规的错误处理
+            if (err) {
+                return next(err);
+            };
+            result = [];
+            var items = '';
+            items = JSON.parse(sres.text);
+            for(var i = 0;i< items.items.length;i++ ){
+                var $ = cheerio.load(items.items[i]);
+                result.push({
+                    piclink: $(".pic a").attr('href'),
+                    picsrc: $(".pic a img").attr('src'),
+                    title: $(".content h3 a").text(),
+                    person:  $(".content .subject-cast").text(),
+                    disc:  $("p").text(),
+                    rate:  $(".content .rating-info .rating_nums").text()
+				})
+			}
+    		res.send(result);
+        });
+});
 
 

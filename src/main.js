@@ -12,9 +12,6 @@ import _ from "lodash"
 //关于axios配置
 Vue.use(ElementU);
 
-
-
-
 Vue.use(Loading);
 Vue.use(VueRouter);
 Axios.interceptors.request.use(function(config){

@@ -36,7 +36,7 @@
           <div class="row">
               <div class="col-xs-12" style="height:280px" >
                   <el-menu theme="dark" :default-active="activeIndex" class="el-menu-demo" @select="handleSelect">
-                      <el-menu-item index="1"> <span class="glyphicon glyphicon-home pr-5" aria-hidden="true"></span>首页</el-menu-item>
+                      <el-menu-item index="1"> <router-link  to='/name'><span class="glyphicon glyphicon-home pr-5" aria-hidden="true"></span>首页</router-link></el-menu-item>
                       <el-menu-item index="2"> <span class="glyphicon glyphicon-tags pr-5" aria-hidden="true"></span>读书</el-menu-item>
                       <el-menu-item index="3"><span class="glyphicon glyphicon-film pr-5" aria-hidden="true"></span>电影</el-menu-item>
                       <el-menu-item index="4"> <span class="glyphicon glyphicon-headphones pr-5" aria-hidden="true"></span>音乐</el-menu-item>
@@ -45,49 +45,6 @@
               </div>
           </div>
       </div>
-
-    <nav class="navbar nav-default nav-fixed-up" style="background:#eee" v-show="false">
-      <div class="container">
-        <div class="navbar-header">
-          <a href="#" class="navbar-brand">
-            <img src="./assets/images/logo.png" class="img-responsive" style="max-height:100%;max-width:100%;display:inline-block" ><span class="navbar-title" style="color:#000">Panpan</span>
-          </a>
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav-collapse">
-            <span class="sr-only">切换导航</span>
-            <span class="icon-bar"></span>
-             <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-          </button>
-        </div>
-        <div class="collapse navbar-collapse navbar-left" id="nav-collapse" >
-          <ul class="nav navbar-nav">
-            <li class="active dropdown">
-              <div class="btn-group">
-                  <button class="btn navbar-btn" style="background:none"><router-link  to='/home'><span class="glyphicon glyphicon-home"></span> 首页</router-link></button>
-                  <button class="btn navbar-btn" data-toggle="dropdown" style="background:none"><span class="caret "  ></span></button>
-                    <ul class="dropdown-menu">
-                        <li><a href="">aaa</a></li>
-                        <li><a href="">aaa</a></li>
-                        <li><a href="">aaa</a></li>
-                        <li><a href="">aaa</a></li>
-                    </ul>
-              </div>
-            </li>
-             <li><router-link  to='/name'><span class="glyphicon glyphicon-list"></span>内容区</router-link></li>
-            <li><router-link  to='/person'><span class="glyphicon glyphicon-search"></span> 个人中心</router-link></li>
-          </ul>
-        </div>
-        <form class="navbar-form navbar-right">
-          <input type="input" class="form-control">
-          <div class="input-group ">
-              <span class="input-group-btn">
-                <button class="btn"><span class="glyphicon glyphicon-zoom-in"></span></button>>
-              </span>
-          </div>
-        </form>
-      </div>
-     </nav>
-    <transition name="fade"><router-view :totle="totle"></router-view></transition>
       <div class="container"style="width:100%;padding:0;position:relative">
           <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6" style="position: absolute;z-index: 2;top:40%;left:50%;transform: translate(-50%,0)">
               <el-input
@@ -99,11 +56,12 @@
           </div>
           <img class="img-responsive" src="./assets/images/bg01.png"style="width:100%;min-height:160px;max-height:500px;">
       </div>
-      <time-con></time-con>
-
-      <movie></movie>
-      <music></music>
+      <transition name="fade"><router-view ></router-view></transition>
+      <time-con v-show="showIt"></time-con>
+      <movie v-show="showIt"></movie>
+      <music v-show="showIt"></music>
       <footer-con></footer-con>
+
 
  </div>
 </template>
@@ -128,7 +86,9 @@ export default {
           totle: "App.vue上的数据",
           activeIndex: '1',
           show_xs_menu: false,
-          input2: ''
+          input2: '',
+          showIt: true,
+
       };
   },
   components:{ 
@@ -142,7 +102,30 @@ export default {
   },
   methods:{
       handleSelect(key, keyPath) {
-          console.log(key, keyPath);
+            this.showIt = false;
+            switch(key){
+                case "1":
+                    location.href = "#/home";
+                    this.showIt = true;
+                    break;
+                case "2":
+                    location.href = "#/name";
+                    break;
+                case "3":
+                    location.href = "#/movie?name=yse";
+                    break;
+                case "4":
+                    location.href = "#/person";
+                    break;
+                case "5":
+                    location.href = "#/name";
+                    break;
+                default:
+                    location.href = "#/home";
+                    break;
+            }
+
+
       },
       changeTheIcon: function () {
           this.show_xs_menu= !this.show_xs_menu;

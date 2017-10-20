@@ -32,12 +32,15 @@
 			</div>
 		</div>
 	</div>
-	<el-dialog title="收货地址" :visible.sync="dialogTableVisible">
-		<el-table >
-			<el-table-column property="date" label="日期" width="150"></el-table-column>
-			<el-table-column property="name" label="姓名" width="200"></el-table-column>
-			<el-table-column property="address" label="地址"></el-table-column>
-		</el-table>
+	<el-dialog :title="dataV.title" :visible.sync="dialogTableVisible" :size="modalSize">
+		<div class="container-fluid" v-loading="loading_video">
+			<div class="col-md-8 col-xs-12 ">
+			<video :src="dataV.video" controls="controls" width="100%"></video>
+			</div>
+			<div class="col-md-4 hidden-sm hidden-xs" >
+				{{dataV.introduction}}
+			</div>
+		</div>
 	</el-dialog>
 	</div>
 </template>
@@ -49,12 +52,39 @@
                 value2: true,
                 data: [],
                 loading2: false,
-                dialogTableVisible: false
+                dialogTableVisible: false,
+				dataV: {},
+                loading_video: false,
+                clientWidth: '',
+				timer: true
             }
         },
         mounted(){
             this.getTimeData();
+            this.clientWidth = `${document.documentElement.clientWidth}`;
+            // 然后监听window的resize事件．在浏览器窗口变化时再设置下背景图高度．
+            const that = this;
+            window.onresize = function temp() {
+                if(that.timer){
+                    that.timer = false;
+                    setTimeout(function () {
+                        that.clientWidth = `${document.documentElement.clientWidth}`;
+                        that.timer = true;
+                    },500)
+				}
+            };
         },
+        computed: {
+          	modalSize: function () {
+                if(this.clientWidth < 768){
+                    return "full"
+                } else if(this.clientWidth < 1170){
+				    return "large"
+				} else{
+				    return "small"
+				}
+            }
+		},
         methods:{
             getTimeData(){
                 var vm = this;
@@ -79,14 +109,18 @@
 
             },
             goUri(url){
+                var vm = this;
+                this.dialogTableVisible = true ;
+                vm.loading_video = true;
                 Axios
                     .post("/cross/douban/video/con",{ url: url })
                     .then(function (res) {
-                        vm.loading2 = false;
-                        vm.data =  res.data;
+                        vm.dataV =  res.data;
+                        vm.loading_video = false;
                     })
                     .catch(function () {
                         vm.loading2 = false;
+                        vm.loading_video = false;
                     })
 			}
         }

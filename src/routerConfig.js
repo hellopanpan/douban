@@ -5,6 +5,7 @@ import HomeShouye3 from './components/homeShouye3.vue'
 import Name from './components/person.vue'
 import Person from './components/person.vue'
 import Detail from './components/detail.vue'
+import MovieCon from './components/movieCon.vue'
 export default [{
 	path:'/home',component:Home,redirect:'/home/shouye1',
 		children:[
@@ -19,7 +20,10 @@ export default [{
 		path:'/article/:id',component:Detail
 	},{
 		path:'/person',component:Person
-	}]
+	},
+    {
+        path:'/movie',component:MovieCon
+    }]
 	
 	
 	
