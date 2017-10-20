@@ -1,16 +1,20 @@
-# y
+# Douban R'bao
 
-> Vue.js project
+> Vue.js + node.js + web 爬虫 + less + lodash + Niginx跨域代理
+project
 
 ## Build Setup
 
 ``` bash
-# install dependencies
+# install web dependencies
 npm install
-
-# serve with hot reload at localhost:8080
+# install server dependencies
+cd server
+npm install
+# web serve with hot reload at localhost:8081
 npm run dev
-
+# server at localhost:3001
+npm run server
 # build for production with minification
 npm run build
 ```
