@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6bbd5df5-03a4-466f-8e7b-747028f0f027" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/search.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
     </list>
@@ -59,8 +58,8 @@
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="175">
-                <caret line="7" column="8" lean-forward="true" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
+              <first_editor relative-caret-position="70">
+                <caret line="20" column="16" lean-forward="true" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
                 <folding />
               </first_editor>
               <second_editor />
@@ -793,7 +792,7 @@
       <workItem from="1508224793467" duration="624000" />
       <workItem from="1508227004514" duration="15415000" />
       <workItem from="1508311327329" duration="9046000" />
-      <workItem from="1508469970470" duration="9544000" />
+      <workItem from="1508469970470" duration="9748000" />
     </task>
     <task id="LOCAL-00001" summary="home page commit">
       <created>1508307086463</created>
@@ -844,11 +843,18 @@
       <option name="project" value="LOCAL" />
       <updated>1508486320496</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="add search">
+      <created>1508487149053</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1508487149053</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="72751000" />
+    <option name="totallyTimeSpent" value="72955000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
@@ -897,7 +903,8 @@
     <MESSAGE value="finish finish the home page" />
     <MESSAGE value="add modal" />
     <MESSAGE value="add movie search" />
-    <option name="LAST_COMMIT_MESSAGE" value="add movie search" />
+    <MESSAGE value="add search" />
+    <option name="LAST_COMMIT_MESSAGE" value="add search" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1395,8 +1402,8 @@
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="175">
-            <caret line="7" column="8" lean-forward="true" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
+          <first_editor relative-caret-position="70">
+            <caret line="20" column="16" lean-forward="true" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
             <folding />
           </first_editor>
           <second_editor />
