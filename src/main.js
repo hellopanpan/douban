@@ -9,7 +9,8 @@ import Axios from 'axios'
 import ElementU from "element-ui"
 import 'element-ui/lib/theme-default/index.css'
 import _ from "lodash"
-//关于axios配置
+//关于axios配置;
+
 Vue.use(ElementU);
 
 Vue.use(Loading);
@@ -36,6 +37,7 @@ Vue.filter("torate", function (value) {
         return value+ '222';
     }
 );
+var result = new Vue();
 new Vue({
 	store,
 	router,
@@ -43,5 +45,4 @@ new Vue({
   render: h => h(App),
 
 
-})
- 
+});

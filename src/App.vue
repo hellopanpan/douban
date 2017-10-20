@@ -45,17 +45,7 @@
               </div>
           </div>
       </div>
-      <div class="container"style="width:100%;padding:0;position:relative">
-          <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6" style="position: absolute;z-index: 2;top:40%;left:50%;transform: translate(-50%,0)">
-              <el-input
-                      placeholder="请输入搜索内容"
-                      icon="search"
-                      v-model="input2"
-                      :on-icon-click="handleIconClick">
-              </el-input>
-          </div>
-          <img class="img-responsive" src="./assets/images/bg01.png"style="width:100%;min-height:160px;max-height:500px;">
-      </div>
+      <search></search>
       <transition name="fade"><router-view ></router-view></transition>
       <time-con v-show="showIt"></time-con>
       <movie v-show="showIt"></movie>
@@ -74,6 +64,7 @@ import Movie from './components/movie.vue'
 import TimeCon from './components/time.vue'
 import FooterCon from './components/footer.vue'
 import Music from './components/music.vue'
+import Search from './components/search.vue'
 
 import {mapGetters,mapActions} from 'vuex'
 
@@ -98,7 +89,8 @@ export default {
       Movie,
       TimeCon,
       FooterCon,
-      Music
+      Music,
+      Search
   },
   methods:{
       handleSelect(key, keyPath) {
@@ -130,9 +122,6 @@ export default {
       changeTheIcon: function () {
           this.show_xs_menu= !this.show_xs_menu;
       },
-      handleIconClick(ev) {
-          console.log(ev);
-      }
   },
   computed:mapGetters(['count']),
   mounted(){

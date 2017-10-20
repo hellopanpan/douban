@@ -52,6 +52,9 @@
 		},
 		mounted(){
 			this.getTimeData();
+            result.$on('id-selected', function (data) {
+				this.data = data;
+            })
 		},
 		methods:{
 		    getTimeData(){
@@ -73,13 +76,7 @@
 			toRate: function(value){
                 return (value/10 * 5).toFixed(0);
 			}
-		},
-		filters:{
-		    torRate: function (value) {
-				return (value/10 * 5).toFixed(0);
-            }
 		}
-
 
 	}
 </script>

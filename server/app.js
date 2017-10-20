@@ -404,7 +404,13 @@ app.post("/douban/video/con",function(req,res,next){
         });
 });
 app.get("/douban/video/search",function(req,res,next){
-    superagent.get("https://www.douban.com/j/search?q=%E6%88%91&start=20&cat=1002")
+	var obj= { q:"我",cat: 1002};
+	if(req.query.q){
+        obj = req.query;
+	};
+	console.log(req.query.length);
+    superagent.get("https://www.douban.com/j/search")
+		.query(obj)
         .end(function (err, sres) {
             // 常规的错误处理
             if (err) {
