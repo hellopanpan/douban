@@ -1,6 +1,9 @@
 <template>
 	<div >
-		<search ></search>
+		<search :tag="tag"@showall="showall"></search>
+		<movie-con :tagname="tag" :alldata="allData"></movie-con>
+		<music-con :tagname="tag" :alldata="allData"></music-con>
+		<read-con :tagname="tag" :alldata="allData"></read-con>
      	<time-con ></time-con>
 	    <movie :tag="tag" ></movie>
 	    <music ></music>
@@ -11,6 +14,10 @@
 	import Search from './search.vue'
 	import Movie from './movie.vue'
 	import TimeCon from './time.vue'
+	import MovieCon from './movieCon.vue'
+	import MusicCon from './musicCon.vue'
+	import ReadCon from './readCon.vue'
+
 
     import Axios from 'axios'
 	export default{
@@ -21,19 +28,26 @@
 				data: '',
                 loading2: false,
                 rateNum: [],
-                tag:"home"
+                tag:"home",
+                allData:""
 			}
 		},
 		components:{
 			Movie,
 	     	TimeCon,
 	    	Music,
-	    	Search
+	    	Search,
+	    	MusicCon,
+      		MovieCon,
+      		ReadCon
 		},
 		mounted(){
 		
 		},
 		methods:{
+			showall(data){
+				this.allData = data;
+			}
 		}
 
 	}

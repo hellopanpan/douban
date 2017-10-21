@@ -24,12 +24,20 @@
         },
         props:{
 			tag:{
-				default: 'home',
+				default: '',
 				type:String
 			},
 			num:{
 				default: 0,
 				type:Number
+			},
+			name:{
+				default: '',
+				type:String
+			},
+			inputname:{
+				default: '',
+				type:String
 			}
 		},
 		computed:{
@@ -38,12 +46,20 @@
 					return 1002;
 				}else if(this.tag == 'music'){
 					return 1003;
+				}else if(this.tag == 'read'){
+					return 1001;
 				}
 			}
 		},
 		watch:{
 			num:function(){
 				this.getTimeData();
+			},
+			inputname:function(){
+				if(this.name == "home"){
+					this.input = this.inputname;
+					this.getTimeData();
+				}
 			}
 		},
 		mounted:function(){
@@ -53,7 +69,9 @@
             handleIconClick(ev) {
                 console.log(ev);
                 this.$emit("clickit");
-                if(this.input){
+                if(this.tag == 'home'){
+					this.$emit("showall",this.input);
+				}else if(this.input){
                     this.getTimeData();
 				}
 
@@ -61,13 +79,27 @@
             getTimeData(){
                 var vm = this;
                 vm.$emit("load");
-                if(this.num > 0 ){
+                if(this.name == "home"){
+
+					this.param={
+	                    q: this.input,
+						cat: this.cat
+					};
+				}else if(this.input == ''){
+   
+                	this.param={
+	                    q: "人",
+						cat: this.cat
+					};
+                }else if(this.num > 0 ){
+            
                 	this.param={
 	                    q: this.input,
 	                    start: this.num,
 						cat: this.cat
 					};
 				}else{
+				
 					this.param={
 	                    q: this.input,
 						cat: this.cat

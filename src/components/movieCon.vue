@@ -1,6 +1,6 @@
 <template>
 	<div >
-		<search @getData="getdata" @load="loading" @loadend="loadend" :tag="tag" :num="dataNum" @clickit="clickit"></search>
+		<search @getData="getdata" @load="loading" @loadend="loadend" :tag="tag" :num="dataNum" @clickit="clickit"  v-show="showSearch" :name="tagname" :inputname ="alldata"></search>
 		<div class="container-fluid" style="padding-top:20px">
 
 			<div class="container" style="padding-bottom:0px;padding-top:20px">
@@ -34,13 +34,13 @@
 						</div>
 					</div>
 
-					<div class="col-md-12" v-if="data.length == 0">
-						<h2>data is loading ...</h2>
+					<div class="col-md-12" v-if="dataTrue.length == 0">
+						<p class="text-muted"style="padding:30px 0"> 在上方输入框键入关键词，开始搜索</p>
 					</div>
 				</div>
 			</div>
-			<div class= "container">
-				<div class="col-xs-8 col-xs-push-2 "style="text-align:center;padding:10px;border:1px solid #eee;margin:10px;border-radius:5px;cursor:pointer;;margin-bottom:30px;background:#eee" @click="loadMore">
+			<div class= "container"v-loading="loading1" v-if="data.length !== 0">
+				<div class="col-xs-8 col-md-6 col-md-push-3 col-xs-push-2 "style="text-align:center;padding:10px;border:1px solid #eee;margin:10px;border-radius:5px;cursor:pointer;;margin-bottom:30px;background:#eee" @click="loadMore">
 					<i class="el-icon-caret-bottom"></i>
 					<span class="text-muted" style="">Load More</span>
 				</div>
@@ -58,10 +58,30 @@
 	            value2: true,
 				data: [],
                 loading2: false,
+                loading1: false,
                 rateNum: [],
                 tag:"movie",
                 dataTrue:[],
                 dataNum:0
+			}
+		},
+		props:{
+			tagname:{
+				default: "",
+				type:String
+			},
+			alldata:{
+				default: "",
+				type:String
+			}
+		},
+		computed:{
+			showSearch:function(){
+				if(this.tagname == "home"){
+					return false;
+				}else{
+					return true ;
+				}
 			}
 		},
 		components:{
@@ -78,12 +98,35 @@
 
 			},
 			loading(){
-				this.loading2 = true;
+				if(this.dataNum == 0){
+					this.loading2 = true;
+				}else{
+					this.loading1 = true;
+				}
+				
 				this.data = [];
 				
 			},
 			loadend(){
-				this.loading2 = false;
+				if(this.dataNum == 0){
+					this.loading2 = false;
+				}else{
+					this.loading1 = false;
+				};
+				if(this.data.length > 0){
+					this.$notify({
+			          title: 'success',
+			          message: 'movie data is successfully loading',
+			          type: 'success',
+			          duration: 1000
+			        });
+				}else if(this.dataNum !== 0){
+					this.$notify.error({
+			          title: 'error',
+			          message: 'movie data is not successfully loaded',
+			          duration: 1000
+			        });
+				}
 			},
 			loadMore(){
 				this.dataNum += 20;

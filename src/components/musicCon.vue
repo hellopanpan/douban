@@ -1,21 +1,21 @@
 <template>
 	<div >
-		<search @getData="getdata" @load="loading" @loadend="loadend" :tag="tag"></search>
-		<div class="container-fluid" style="background:#daf9f0;padding-top:20px">
+		<search @getData="getdata" @load="loading" @loadend="loadend" :tag="tag" :num="dataNum" @clickit="clickit"  v-show="showSearch" :name="tagname" :inputname ="alldata"></search>
+		<div class="container-fluid" style="padding-top:20px">
 
-			<div class="container" style="padding-bottom:40px;padding-top:20px">
+			<div class="container" style="padding-bottom:0px;padding-top:20px">
 				<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12 " style="padding-bottom:20px">
-				<h2 style="padding-top:0;margin-top:0px;font-family: Arial, Helvetica, sans-serif;">豆瓣音乐</h2>
+				<h2 style="padding-top:0;margin-top:0px;font-family: Arial, Helvetica, sans-serif;">豆瓣电影</h2>
 				</div>
 				<div class="col-lg-10 col-md-12 col-sm-12" style="min-height:400px"  v-loading="loading2" element-loading-text="拼命加载中">
 					<div class="col-md-12 " style="padding-bottom:20px"  >
 						<el-breadcrumb separator="/" >
 							<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-							<el-breadcrumb-item>豆瓣音乐</el-breadcrumb-item>
+							<el-breadcrumb-item>豆瓣电影</el-breadcrumb-item>
 							<el-breadcrumb-item>豆瓣搜索</el-breadcrumb-item>
 						</el-breadcrumb>
 					</div>
-					<div class="col-xs-12 col-md-6 col-sm-6 col-lg-6 pb-10" v-for="(item,index) in data">
+					<div class="col-xs-12 col-md-6 col-sm-6 col-lg-6 pb-10" v-for="(item,index) in dataTrue">
 
 						<div class="" style="width:100%;border:1px solid #fff ;border-radius:2px;padding:10px;min-height:200px" >
 							<div class="row">
@@ -34,9 +34,15 @@
 						</div>
 					</div>
 
-					<div class="col-md-12" v-if="data.length == 0">
-						<h2>data is loading ...</h2>
+					<div class="col-md-12" v-if="dataTrue.length == 0">
+						<p class="text-muted"style="padding:30px 0"> 在上方输入框键入关键词，开始搜索</p>
 					</div>
+				</div>
+			</div>
+			<div class= "container"v-loading="loading1" v-if="data.length !== 0">
+				<div class="col-xs-8 col-md-6 col-md-push-3 col-xs-push-2 "style="text-align:center;padding:10px;border:1px solid #eee;margin:10px;border-radius:5px;cursor:pointer;;margin-bottom:30px;background:#eee" @click="loadMore">
+					<i class="el-icon-caret-bottom"></i>
+					<span class="text-muted" style="">Load More</span>
 				</div>
 			</div>
 		</div>
@@ -50,48 +56,86 @@
 	        return{
 	            value1: 3,
 	            value2: true,
-				data: '',
+				data: [],
                 loading2: false,
+                loading1: false,
                 rateNum: [],
-                tag:"music"
+                tag:"music",
+                dataTrue:[],
+                dataNum:0
+			}
+		},
+		props:{
+			tagname:{
+				default: "",
+				type:String
+			},
+			alldata:{
+				default: "",
+				type:String
+			}
+		},
+		computed:{
+			showSearch:function(){
+				if(this.tagname == "home"){
+					return false;
+				}else{
+					return true ;
+				}
 			}
 		},
 		components:{
 			Search
 		},
 		mounted(){
-			this.getTimeData(); 
+			//this.getdata(); 
 		},
 		methods:{
 			getdata(data){
 				this.data = data;
+				var vm = this;
+				vm.dataTrue=vm.dataTrue.concat(vm.data);
 
 			},
 			loading(){
-				this.loading2 = true;
+				if(this.dataNum == 0){
+					this.loading2 = true;
+				}else{
+					this.loading1 = true;
+				}
+				
 				this.data = [];
+				
 			},
 			loadend(){
-				this.loading2 = false;
+				if(this.dataNum == 0){
+					this.loading2 = false;
+				}else{
+					this.loading1 = false;
+				};
+				if(this.data.length > 0){
+					this.$notify({
+			          title: 'success',
+			          message: 'music data is successfully loading',
+			          type: 'success',
+			          duration: 1000
+			        });
+				}else if(this.dataNum !== 0){
+					this.$notify.error({
+			          title: 'error',
+			          message: 'music data is not successfully loaded',
+			          duration: 1000
+			        });
+				}
 			},
-		    getTimeData(){
-		        var vm = this;
-                vm.loading2 = true;
-                Axios
-					.get("/cross/douban/video/search")
-					.then(function (res) {
-					    vm.loading2 = false;
-						vm.data =  res.data;
-                        for(var i = 0;i< vm.data.length;i++){
-                            vm.rateNum.push(Math.floor(vm.data[i].rate /10 * 5));
-                        }
-                	})
-					.catch(function () {
-						vm.loading2 = false;
-                    })
+			loadMore(){
+				this.dataNum += 20;
 			},
 			toRate: function(value){
                 return (value/10 * 5).toFixed(0);
+			},
+			clickit(){
+				this.dataTrue=[];
 			}
 		}
 
