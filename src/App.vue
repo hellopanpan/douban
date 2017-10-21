@@ -14,7 +14,7 @@
                           <el-menu-item index="2"> <span class="glyphicon glyphicon-tags pr-5" aria-hidden="true"></span>读书</el-menu-item>
                           <el-menu-item index="3"><span class="glyphicon glyphicon-film pr-5" aria-hidden="true"></span>电影</el-menu-item>
                           <el-menu-item index="4"> <span class="glyphicon glyphicon-headphones pr-5" aria-hidden="true"></span>音乐</el-menu-item>
-                          <el-menu-item index="4"> <span class="glyphicon glyphicon-comment pr-5" aria-hidden="true"></span>豆瓣小组</el-menu-item>
+                          <el-menu-item index="5"> <span class="glyphicon glyphicon-comment pr-5" aria-hidden="true"></span>About me</el-menu-item>
                       </el-menu>
                   </div>
                   <div class="col-md-2 col-sm-2 hidden-xs" style="height:60px;line-height:60px;position:relative">
@@ -40,18 +40,14 @@
                       <el-menu-item index="2"> <span class="glyphicon glyphicon-tags pr-5" aria-hidden="true"></span>读书</el-menu-item>
                       <el-menu-item index="3"><span class="glyphicon glyphicon-film pr-5" aria-hidden="true"></span>电影</el-menu-item>
                       <el-menu-item index="4"> <span class="glyphicon glyphicon-headphones pr-5" aria-hidden="true"></span>音乐</el-menu-item>
-                      <el-menu-item index="4"> <span class="glyphicon glyphicon-comment pr-5" aria-hidden="true"></span>豆瓣小组</el-menu-item>
+                      <el-menu-item index="5"> <span class="glyphicon glyphicon-comment pr-5" aria-hidden="true"></span>About me</el-menu-item>
                   </el-menu>
               </div>
           </div>
       </div>
-      <search></search>
+      
       <transition name="fade"><router-view ></router-view></transition>
-      <time-con v-show="showIt"></time-con>
-      <movie v-show="showIt"></movie>
-      <music v-show="showIt"></music>
       <footer-con></footer-con>
-
 
  </div>
 </template>
@@ -60,11 +56,9 @@
 import Navview from './components/nav.vue'
 import ContentView from './components/content.vue'  
 import FllowView from './components/fllowView.vue'
-import Movie from './components/movie.vue'
-import TimeCon from './components/time.vue'
+
 import FooterCon from './components/footer.vue'
-import Music from './components/music.vue'
-import Search from './components/search.vue'
+
 
 import {mapGetters,mapActions} from 'vuex'
 
@@ -86,34 +80,30 @@ export default {
       Navview,
       ContentView,
       FllowView,
-      Movie,
-      TimeCon,
       FooterCon,
-      Music,
-      Search
   },
   methods:{
       handleSelect(key, keyPath) {
             this.showIt = false;
             switch(key){
                 case "1":
-                    location.href = "#/home";
+                    location.href = "#/";
                     this.showIt = true;
                     break;
                 case "2":
-                    location.href = "#/name";
+                    location.href = "#/read";
                     break;
                 case "3":
-                    location.href = "#/movie?name=yse";
+                    location.href = "#/movie";
                     break;
                 case "4":
-                    location.href = "#/person";
+                    location.href = "#/music";
                     break;
                 case "5":
-                    location.href = "#/name";
+                    location.href = "#/person";
                     break;
                 default:
-                    location.href = "#/home";
+                    location.href = "#/";
                     break;
             }
 

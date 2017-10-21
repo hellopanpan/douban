@@ -6,6 +6,9 @@ import Name from './components/person.vue'
 import Person from './components/person.vue'
 import Detail from './components/detail.vue'
 import MovieCon from './components/movieCon.vue'
+import MusicCon from './components/musicCon.vue'
+import ReadCon from './components/readCon.vue'
+import HomeApp from './components/homeApp.vue'
 export default [{
 	path:'/home',component:Home,redirect:'/home/shouye1',
 		children:[
@@ -13,7 +16,11 @@ export default [{
 			{path:"shouye2",component:HomeShouye2},
 			{path:"shouye3",component:HomeShouye3}
 		]
-	},{
+	},
+	{
+        path:'/',component:HomeApp
+    },
+    {
 		path:'/name',component:Name
 	},
 	{
@@ -23,6 +30,15 @@ export default [{
 	},
     {
         path:'/movie',component:MovieCon
+    },
+    {
+        path:'/music',component:MusicCon
+    },
+     {
+        path:'/read',component:ReadCon
+    },
+    {
+    	path:"*" ,redirect:"/"
     }]
 	
 	

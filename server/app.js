@@ -404,10 +404,7 @@ app.post("/douban/video/con",function(req,res,next){
         });
 });
 app.get("/douban/video/search",function(req,res,next){
-	var obj= { q:"我",cat: 1002};
-	if(req.query.q){
-        obj = req.query;
-	};
+	var obj = req.query;
 	console.log(req.query.length);
     superagent.get("https://www.douban.com/j/search")
 		.query(obj)

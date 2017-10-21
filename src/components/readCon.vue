@@ -1,21 +1,21 @@
 <template>
 	<div >
-		<search @getData="getdata" @load="loading" @loadend="loadend" :tag="tag" :num="dataNum" @clickit="clickit"></search>
-		<div class="container-fluid" style="padding-top:20px">
+		<search @getData="getdata" @load="loading" @loadend="loadend" :tag="tag"></search>
+		<div class="container-fluid" style="background:#daf9f0;padding-top:20px">
 
-			<div class="container" style="padding-bottom:0px;padding-top:20px">
+			<div class="container" style="padding-bottom:40px;padding-top:20px">
 				<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12 " style="padding-bottom:20px">
-				<h2 style="padding-top:0;margin-top:0px;font-family: Arial, Helvetica, sans-serif;">豆瓣电影</h2>
+				<h2 style="padding-top:0;margin-top:0px;font-family: Arial, Helvetica, sans-serif;">豆瓣读书</h2>
 				</div>
 				<div class="col-lg-10 col-md-12 col-sm-12" style="min-height:400px"  v-loading="loading2" element-loading-text="拼命加载中">
 					<div class="col-md-12 " style="padding-bottom:20px"  >
 						<el-breadcrumb separator="/" >
 							<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-							<el-breadcrumb-item>豆瓣电影</el-breadcrumb-item>
+							<el-breadcrumb-item>豆瓣读书</el-breadcrumb-item>
 							<el-breadcrumb-item>豆瓣搜索</el-breadcrumb-item>
 						</el-breadcrumb>
 					</div>
-					<div class="col-xs-12 col-md-6 col-sm-6 col-lg-6 pb-10" v-for="(item,index) in dataTrue">
+					<div class="col-xs-12 col-md-6 col-sm-6 col-lg-6 pb-10" v-for="(item,index) in data">
 
 						<div class="" style="width:100%;border:1px solid #fff ;border-radius:2px;padding:10px;min-height:200px" >
 							<div class="row">
@@ -39,12 +39,6 @@
 					</div>
 				</div>
 			</div>
-			<div class= "container">
-				<div class="col-xs-8 col-xs-push-2 "style="text-align:center;padding:10px;border:1px solid #eee;margin:10px;border-radius:5px;cursor:pointer;;margin-bottom:30px;background:#eee" @click="loadMore">
-					<i class="el-icon-caret-bottom"></i>
-					<span class="text-muted" style="">Load More</span>
-				</div>
-			</div>
 		</div>
 	</div>
 </template>
@@ -56,43 +50,48 @@
 	        return{
 	            value1: 3,
 	            value2: true,
-				data: [],
+				data: '',
                 loading2: false,
                 rateNum: [],
-                tag:"movie",
-                dataTrue:[],
-                dataNum:0
+                tag:"read"
 			}
 		},
 		components:{
 			Search
 		},
 		mounted(){
-			//this.getdata(); 
+			this.getTimeData(); 
 		},
 		methods:{
 			getdata(data){
 				this.data = data;
-				var vm = this;
-				vm.dataTrue=vm.dataTrue.concat(vm.data);
 
 			},
 			loading(){
 				this.loading2 = true;
 				this.data = [];
-				
 			},
 			loadend(){
 				this.loading2 = false;
 			},
-			loadMore(){
-				this.dataNum += 20;
+		    getTimeData(){
+		        var vm = this;
+                vm.loading2 = true;
+                Axios
+					.get("/cross/douban/video/search")
+					.then(function (res) {
+					    vm.loading2 = false;
+						vm.data =  res.data;
+                        for(var i = 0;i< vm.data.length;i++){
+                            vm.rateNum.push(Math.floor(vm.data[i].rate /10 * 5));
+                        }
+                	})
+					.catch(function () {
+						vm.loading2 = false;
+                    })
 			},
 			toRate: function(value){
                 return (value/10 * 5).toFixed(0);
-			},
-			clickit(){
-				this.dataTrue=[];
 			}
 		}
 

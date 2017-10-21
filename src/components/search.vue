@@ -1,6 +1,5 @@
 <template>
 	<div class="container"style="width:100%;padding:0;position:relative">
-		{{data}}
 		<div class="col-xs-12 col-sm-8 col-md-8 col-lg-6" style="position: absolute;z-index: 2;top:40%;left:50%;transform: translate(-50%,0)">
 			<el-input
 					placeholder="请输入搜索内容"
@@ -19,36 +18,76 @@
         data(){
             return{
 				input:"",
-				data:[]
+				data:[],
+				params:{},
             }
         },
+        props:{
+			tag:{
+				default: 'home',
+				type:String
+			},
+			num:{
+				default: 0,
+				type:Number
+			}
+		},
+		computed:{
+			cat: function(){
+				if(this.tag == 'movie'){
+					return 1002;
+				}else if(this.tag == 'music'){
+					return 1003;
+				}
+			}
+		},
+		watch:{
+			num:function(){
+				this.getTimeData();
+			}
+		},
+		mounted:function(){
+			this.getTimeData("书");
+		},
 		methods:{
             handleIconClick(ev) {
                 console.log(ev);
+                this.$emit("clickit");
                 if(this.input){
-                    this.getTimeData(this.input);
+                    this.getTimeData();
 				}
 
             },
-            getTimeData(val){
+            getTimeData(){
                 var vm = this;
-                vm.loading2 = true;
-                var param={
-                    q: val,
-					cat: 1002
-				}
+                vm.$emit("load");
+                if(this.num > 0 ){
+                	this.param={
+	                    q: this.input,
+	                    start: this.num,
+						cat: this.cat
+					};
+				}else{
+					this.param={
+	                    q: this.input,
+						cat: this.cat
+					};
+                }
+                 
                 Axios
-                    .get("/cross/douban/video/search",{params: param})
+                    .get("/cross/douban/video/search",{params: this.param})
                     .then(function (res) {
                         vm.loading2 = false;
                         vm.data =  res.data;
                         for(var i = 0;i< vm.data.length;i++){
                             vm.data[i].rate = Math.floor(vm.data[i].rate /10 * 5);
                         };
-                        bus.$emit('search', vm.data)
+                        vm.$emit("getData",vm.data);
+                        vm.$emit("loadend");
                     })
                     .catch(function () {
                         vm.loading2 = false;
+                        vm.$emit("loadend");
                     })
             },
 		},
