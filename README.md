@@ -1,6 +1,6 @@
 # Douban R'bao
 
-> Vue.js + node.js + web 爬虫 + less + lodash + Niginx跨域代理
+> Vue.js + node.js + web 爬虫 + webpack + less + lodash + Niginx跨域代理
 project
 
 ## Build Setup

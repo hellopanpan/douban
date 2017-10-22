@@ -5,13 +5,13 @@
 
 			<div class="container" style="padding-bottom:0px;padding-top:20px">
 				<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12 " style="padding-bottom:20px">
-				<h2 style="padding-top:0;margin-top:0px;font-family: Arial, Helvetica, sans-serif;">豆瓣电影</h2>
+				<h2 style="padding-top:0;margin-top:0px;font-family: Arial, Helvetica, sans-serif;">豆瓣读书</h2>
 				</div>
 				<div class="col-lg-10 col-md-12 col-sm-12" style="min-height:400px"  v-loading="loading2" element-loading-text="拼命加载中">
 					<div class="col-md-12 " style="padding-bottom:20px"  >
 						<el-breadcrumb separator="/" >
 							<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-							<el-breadcrumb-item>豆瓣电影</el-breadcrumb-item>
+							<el-breadcrumb-item>豆瓣读书</el-breadcrumb-item>
 							<el-breadcrumb-item>豆瓣搜索</el-breadcrumb-item>
 						</el-breadcrumb>
 					</div>
@@ -39,7 +39,7 @@
 					</div>
 				</div>
 			</div>
-			<div class= "container"v-loading="loading1" v-if="data.length !== 0">
+			<div class= "container" v-loading="loading1" v-if="yesmore">
 				<div class="col-xs-8 col-md-6 col-md-push-3 col-xs-push-2 "style="text-align:center;padding:10px;border:1px solid #eee;margin:10px;border-radius:5px;cursor:pointer;;margin-bottom:30px;background:#eee" @click="loadMore">
 					<i class="el-icon-caret-bottom"></i>
 					<span class="text-muted" style="">Load More</span>
@@ -62,7 +62,8 @@
                 rateNum: [],
                 tag:"read",
                 dataTrue:[],
-                dataNum:0
+                dataNum:0,
+                yesmore: true
 			}
 		},
 		props:{
@@ -116,14 +117,15 @@
 				if(this.data.length > 0){
 					this.$notify({
 			          title: 'success',
-			          message: 'read data is successfully loading',
+			          message: 'data is successfully loading',
 			          type: 'success',
 			          duration: 1000
 			        });
 				}else if(this.dataNum !== 0){
+					this.yesmore = false; 
 					this.$notify.error({
 			          title: 'error',
-			          message: 'read data is not successfully loaded',
+			          message: 'data is not successfully loaded',
 			          duration: 1000
 			        });
 				}

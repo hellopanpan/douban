@@ -3,7 +3,19 @@
 		<div class="container" style="padding-bottom:40px">
 			<div class=" col-xs-12 col-sm-3 pull-right">
 				<div class="hidden-xs col-sm-12" style="height:60px;line-height:60px;position:relative">
-					<img src="/src/assets/images/github-01.png" style="position: absolute;top:40px;right:0;max-height:40px;max-width:40px;display:inline-block">
+					<el-popover
+					  ref="popover2"
+					  placement="top"
+					  width="220"
+					  trigger="click">
+					  <div style="">
+					  	<img style="width:200px;height:200px"src="/src/assets/images/wechat.jpg">
+					  	<p class="text-muted pt-10"style="font-size:10px">扫一扫上面的二维码图案，加我微信</p>
+					  </div>
+					</el-popover>		
+					<el-button v-popover:popover2 style="opacity:0;position:absolute;top:45px;right:60px;z-index:2">	click
+					</el-button>
+					<img  @click="showGit" src="/src/assets/images/github-01.png" style="position: absolute;top:40px;right:0;max-height:40px;max-width:40px;display:inline-block;cursor:pointer">
 					<img src="/src/assets/images/wechart.png" style="position: absolute;top:45px;right:60px;max-height:40px;max-width:40px;display:inline-block">
 				</div>
 
@@ -18,6 +30,9 @@
 			</div>
 
 		</div>
+		
+		
+
 	</div>
 </template>
 <script>
@@ -28,6 +43,11 @@
                 value2: true,
             }
         },
+        methods:{
+        	showGit(){
+        		window.open("https://github.com/hellopanpan/douban","_blank");
+        	}
+        }
 
     }
 </script>

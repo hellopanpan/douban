@@ -1,5 +1,5 @@
 <template>
-	<div class="container-fluid" style="background:#daf9f0;padding-top:20px">
+	<div class="container-fluid" style="background:#fff;padding-top:20px">
 	<div class="container" style="padding-bottom:40px;padding-top:20px">
 		<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12 " style="padding-bottom:20px">
 		<h2 style="padding-top:0;margin-top:0px;font-family: Arial, Helvetica, sans-serif;">豆瓣音樂</h2>

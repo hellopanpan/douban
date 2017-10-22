@@ -18,7 +18,7 @@
                       </el-menu>
                   </div>
                   <div class="col-md-2 col-sm-2 hidden-xs" style="height:60px;line-height:60px;position:relative">
-                      <img src="./assets/images/github-01.png" style="position: absolute;top:10px;right:0;max-height:40px;max-width:40px;display:inline-block">
+                      <img @click="showGit" src="./assets/images/github-01.png" style="position: absolute;top:10px;right:0;max-height:40px;max-width:40px;display:inline-block;cursor:pointer">
                   </div>
                   <div class="col-xs-2 hidden-sm hidden-md hidden-lg"style="postion:relative">
                       <div style="position: absolute;top:20px;right:10px;cursor:pointer"@click="changeTheIcon">
@@ -112,6 +112,9 @@ export default {
       changeTheIcon: function () {
           this.show_xs_menu= !this.show_xs_menu;
       },
+      showGit(){
+        window.open("https://github.com/hellopanpan/douban","_blank");
+      }
   },
   computed:mapGetters(['count']),
   mounted(){

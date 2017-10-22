@@ -1,5 +1,5 @@
 <template>
-	<div class="container-fluid" style="background:#f7f7f7;padding-top:20px">
+	<div class="container-fluid" style="background:#fff;padding-top:20px">
 	<div class="container" style="padding-bottom:40px">
 		<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12" style="padding-bottom:20px">
 			<h2 style="padding-top:0;margin-top:0px;font-family: Arial, Helvetica, sans-serif;">豆瓣視频</h2>
@@ -32,7 +32,7 @@
 			</div>
 		</div>
 	</div>
-	<el-dialog :title="dataV.title" :visible.sync="dialogTableVisible" :size="modalSize">
+	<el-dialog :title="dataV.title" :visible.sync="dialogTableVisible" :size="modalSize" v-if="dialogTableVisible">
 		<div class="container-fluid" v-loading="loading_video">
 			<div class="col-md-8 col-xs-12 ">
 			<video :src="dataV.video" controls="controls" width="100%"></video>
@@ -122,6 +122,9 @@
                         vm.loading2 = false;
                         vm.loading_video = false;
                     })
+			},
+			close(){
+				alert();
 			}
         }
     }

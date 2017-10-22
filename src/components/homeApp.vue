@@ -1,12 +1,12 @@
 <template>
 	<div >
 		<search :tag="tag"@showall="showall"></search>
-		<movie-con :tagname="tag" :alldata="allData"></movie-con>
-		<music-con :tagname="tag" :alldata="allData"></music-con>
-		<read-con :tagname="tag" :alldata="allData"></read-con>
-     	<time-con ></time-con>
-	    <movie :tag="tag" ></movie>
-	    <music ></music>
+		<movie-con v-show="search":tagname="tag" :alldata="allData"></movie-con>
+		<music-con v-show="search":tagname="tag" :alldata="allData"></music-con>
+		<read-con v-show="search" :tagname="tag" :alldata="allData"></read-con>
+	    <movie :tag="tag" v-show="!search"></movie>
+	    <music  v-show="!search" ></music>
+	    <time-con v-show="!search"></time-con>
 	</div>
 </template>
 <script>
@@ -29,7 +29,8 @@
                 loading2: false,
                 rateNum: [],
                 tag:"home",
-                allData:""
+                allData:"",
+                search: false
 			}
 		},
 		components:{
@@ -45,8 +46,9 @@
 		
 		},
 		methods:{
-			showall(data){
-				this.allData = data;
+			showall(data){//search icon click
+				this.allData = data;//input data
+				this.search = true;
 			}
 		}
 

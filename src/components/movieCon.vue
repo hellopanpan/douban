@@ -39,7 +39,7 @@
 					</div>
 				</div>
 			</div>
-			<div class= "container"v-loading="loading1" v-if="data.length !== 0">
+			<div class= "container" v-loading="loading1" v-if="yesmore">
 				<div class="col-xs-8 col-md-6 col-md-push-3 col-xs-push-2 "style="text-align:center;padding:10px;border:1px solid #eee;margin:10px;border-radius:5px;cursor:pointer;;margin-bottom:30px;background:#eee" @click="loadMore">
 					<i class="el-icon-caret-bottom"></i>
 					<span class="text-muted" style="">Load More</span>
@@ -62,7 +62,8 @@
                 rateNum: [],
                 tag:"movie",
                 dataTrue:[],
-                dataNum:0
+                dataNum:0,
+                yesmore: true
 			}
 		},
 		props:{
@@ -116,14 +117,15 @@
 				if(this.data.length > 0){
 					this.$notify({
 			          title: 'success',
-			          message: 'movie data is successfully loading',
+			          message: 'data is successfully loading',
 			          type: 'success',
 			          duration: 1000
 			        });
 				}else if(this.dataNum !== 0){
+					this.yesmore = false; 
 					this.$notify.error({
 			          title: 'error',
-			          message: 'movie data is not successfully loaded',
+			          message: ' data is not successfully loaded',
 			          duration: 1000
 			        });
 				}
