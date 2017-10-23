@@ -8,7 +8,7 @@
 					:on-icon-click="handleIconClick">
 			</el-input>
 		</div>
-		<img class="img-responsive" src="/src/assets/images/bg01.png"style="width:100%;min-height:160px;max-height:500px;">
+		<img class="img-responsive" :src="imgBg"style="width:100%;min-height:160px;max-height:500px;">
 	</div>
 </template>
 <script>
@@ -20,6 +20,7 @@
 				input:"",
 				data:[],
 				params:{},
+                imgBg:  require("../assets/images/bg01.png"),
             }
         },
         props:{
@@ -38,7 +39,7 @@
 			inputname:{
 				default: '',
 				type:String
-			}
+			},
 		},
 		computed:{
 			cat: function(){
