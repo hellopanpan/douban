@@ -26,8 +26,8 @@
 									<h4 class="text-primary auto-hide" >{{item.title}}</h4>
 									<p class="text-muted auto-hide" style="padding-left:5px">{{item.person}}</p>
 									<p class="text-muted auto-hide2" style="padding-left:5px;font-size:10px">{{item.disc}}</p>
-									<el-rate  v-if ="rateNum[index]" v-model="rateNum[index]"></el-rate>
-									<h4 v-if ="!rateNum[index]"class="text-muted auto-hide" >暂无评论</h4>
+									<el-rate  v-if ="item.rate" v-model="item.rate"></el-rate>
+									<h4 v-if ="!item.rate"class="text-muted auto-hide" >暂无评论</h4>
 								</div>
 							</div>
 
