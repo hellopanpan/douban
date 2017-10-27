@@ -1,6 +1,6 @@
 <template>
-	<div class="container"style="width:100%;padding:0;position:relative">
-		<div class="col-xs-12 col-sm-8 col-md-8 col-lg-6" style="position: absolute;z-index: 2;top:40%;left:50%;transform: translate(-50%,0)">
+	<div class="container"style="width:100%;padding:0;position:relative;background:#eee">
+		<div class="col-xs-12 col-sm-8 col-md-8 col-lg-6" style="position: absolute;z-index: 2;top:50%;left:50%;transform: translate(-50%,0)">
 			<el-input
 					placeholder="请输入搜索内容"
 					icon="search"
@@ -8,7 +8,7 @@
 					:on-icon-click="handleIconClick">
 			</el-input>
 		</div>
-		<img class="img-responsive" :src="imgBg"style="width:100%;min-height:160px;max-height:500px;">
+		<img class="img-responsive" :src="imgBg"style="width:100%;min-height:160px;max-height:500px;opacity:1">
 	</div>
 </template>
 <script>
@@ -20,7 +20,7 @@
 				input:"",
 				data:[],
 				params:{},
-                imgBg:  require("../assets/images/bg01.png"),
+                imgBg:  require("../assets/images/bg01.jpg"),
             }
         },
         props:{
@@ -89,7 +89,7 @@
 				}else if(this.input == ''){
    
                 	this.param={
-	                    q: "人",
+	                    q: "周",
 						cat: this.cat
 					};
                 }else if(this.num > 0 ){

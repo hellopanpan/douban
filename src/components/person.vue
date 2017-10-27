@@ -38,7 +38,7 @@
 
 </template>
 <style>
-	.person{height:500px;width:100%;background:#fff;padding:0;}
+	.person{height:700px;width:100%;background:#fff;padding:0;}
 	.person h2{padding:20px;color:#666;font-size:16px}
 	.person p{padding:10px;text-align:left;padding-left:20px}
 </style>
