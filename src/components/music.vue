@@ -16,7 +16,7 @@
 				<div class="" style="width:100%;border:1px solid #fff ;border-radius:2px;padding:10px" >
 					<div class="row">
 						<div class="col-xs-4 ">
-							<a :href="item.piclink"><img :src="item.picsrc" ></a>
+							<a :href="item.piclink"><img :src="item.picsrc" style="height:80px;width:80px"></a>
 						</div>
 						<div class="col-xs-8">
 							<h4 class="text-primary" style="margin-top:0">{{item.title}}</h4>
