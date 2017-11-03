@@ -80,23 +80,31 @@
             getTimeData(){
                 var vm = this;
                 vm.$emit("load");
-                if(this.name == "home"){
-
-					this.param={
-	                    q: this.input,
-						cat: this.cat
-					};
-				}else if(this.input == ''){
-   
-                	this.param={
-	                    q: "周",
-						cat: this.cat
-					};
+				debugger
+                if(this.input == ''){
+					if(this.num == 0){
+						this.param={
+							q: "周",
+							cat: this.cat
+						};
+					}else{
+						this.param={
+							q: "周",
+							start: this.num,
+							cat: this.cat
+						};
+					}
+                	
                 }else if(this.num > 0 ){
             
                 	this.param={
 	                    q: this.input,
 	                    start: this.num,
+						cat: this.cat
+					};
+				}else if(this.name == "home"){
+					this.param={
+	                    q: this.input,
 						cat: this.cat
 					};
 				}else{
@@ -105,7 +113,8 @@
 	                    q: this.input,
 						cat: this.cat
 					};
-                }
+                };
+				
                  
                 Axios
                     .get("/cross/douban/video/search",{params: this.param})

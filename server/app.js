@@ -2,6 +2,7 @@
 var express = require('express');
 // 建立 express 实例
 var app = express();
+var fs = require("fs");
 var superagent= require('superagent');
 var cheerio= require('cheerio');
 var url = require('url');
@@ -414,20 +415,67 @@ app.get("/douban/video/search",function(req,res,next){
                 return next(err);
             };
             result = [];
+            piclink = [];
             var items = '';
             items = JSON.parse(sres.text);
             for(var i = 0;i< items.items.length;i++ ){
                 var $ = cheerio.load(items.items[i]);
+				var picstr = '';
+				var picstrOrigin = $(".pic a img").attr('src');
+				var exec = /([^\/]+)\.(jpg|webp)$/;
+				arr = picstrOrigin.match(exec);
+				if(exec.test(picstrOrigin)){
+					picstr = "/douban/server/public/"+arr[0];
+				}else{
+					picstr = '/douban/server/public/404.webp';
+				}
                 result.push({
                     piclink: $(".pic a").attr('href'),
-                    picsrc: $(".pic a img").attr('src'),
+                    picsrc: picstr,
                     title: $(".content h3 a").text(),
                     person:  $(".content .subject-cast").text(),
                     disc:  $("p").text(),
                     rate:  $(".content .rating-info .rating_nums").text()
-				})
-			}
-    		res.send(result);
+				});
+				piclink.push($(".pic a img").attr('src'));
+			};
+    		function downloadImg(url, filename, callback,ep) {
+			    var stream = fs.createWriteStream(__dirname +"/public/"+ filename);
+			    superagent.get(url).on('error',function(){
+			        console.log('done no');
+			    }).pipe(stream).on('close', callback);
+			    ep.emit('topic_html', ["1"]);
+			};
+			var ep = new eventproxy();
+			ep.after('topic_html', piclink.length, function (topics) {
+			  // topics 是个数组，包含了 40 次 ep.emit('topic_html', pair) 中的那 40 个 pair
+
+			  // 开始行动
+				setTimeout(function(){
+					res.send(result);
+				},1200)
+				
+
+			  console.log('final:');
+			  console.log(topics);
+			});
+
+			piclink.forEach(function (topicUrl) {
+				var exec = /([^\/]+)\.(jpg|webp)$/;
+				arr = topicUrl.match(exec);
+				if(exec.test(topicUrl)){
+					downloadImg(topicUrl, arr[0], function(){
+				 		console.log("successloading");
+				 	},ep);
+				}else{
+					downloadImg("https://img1.doubanio.com/view/photo/albumcover/public/p2502061698.webp", "404.webp", function(){
+				 		console.log("success");
+				 	},ep);
+				}
+			 	
+			});
+			
+
         });
 });
 
