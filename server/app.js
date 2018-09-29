@@ -31,15 +31,19 @@ var UserSchema = new Schema({//table 模式
 	nowdate:{
 		type: String
 	}
-
-
 });	
 var User = mongoose.model("UserNew04",UserSchema);//table 
-app.listen(3001, function (req, res) {
+app.listen(3000, function (req, res) {
   console.log('app is running at port 3000');
 });
 app.use(bodyParser.json());
 var cnodeUrl = 'https://cnodejs.org/';
+app.all('*', function(req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "X-Requested-With");
+	console.log('22222---->222')
+	next();
+});
 app.get('/', function (req, res, next) {
   // 用 superagent 去抓取 https://cnodejs.org/ 的内容
   superagent.get(cnodeUrl)
@@ -258,6 +262,7 @@ app.get('/csuAll', function (req, res, next) {
 			  date:$element.find(".spanDate").html()
 			};
 			function insert(obj){
+				console.log(obj)
 				var user = new User(obj);
 				user.save(function(err,res){
 					if(err){

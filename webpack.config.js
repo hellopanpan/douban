@@ -64,8 +64,16 @@ module.exports = {
     }
   },
   devServer: {
-    historyApiFallback: true,
-    noInfo: true
+    proxy: {
+      "/cross": {
+        target: 'http://localhost:3000',
+        pathRewrite:{"^/cross": ""},
+        onProxyReq: function(proxyReq, req, res) {
+          var log = proxyReq.method + '------>' + proxyReq.path
+          console.info(log)
+        }
+      }
+    },
   },
   performance: {
     hints: false
