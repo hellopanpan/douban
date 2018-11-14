@@ -12,16 +12,7 @@
 					<el-breadcrumb-item>如是</el-breadcrumb-item>
 				</el-breadcrumb>
 			</div>
-			<div class=" col-md-4 col-md-4 col-sm-6 col-xs-6 pb-10" v-for="item in data[0].items">
-				<div class="" style="width:100%;border:1px solid #eee ;border-radius:2px;padding:10px" >
-					<div style="position: relative;cursor:pointer" @click="goUri(item.uri)" class="movie_hover">
-						<img src="../assets/images/play.png" style="position: absolute;top:50%;left:50%;margin-left:-10px;margin-top:-12px" class="item">
-						<img :src="item.cover" style="width:100%;" >
-					</div>
-					<p class="text-primary pt-10 auto-hide02">{{item.title}}</p>
-				</div>
-			</div>
-			<div class="col-md-4 col-md-4 col-sm-6 col-xs-6 pb-10" v-for="item in data[1].items">
+			<div class="col-md-4 col-md-4 col-sm-6 col-xs-6 pb-10" v-for="item in data" v-bind:key="item.uri">
 				<div class="" style="width:100%;border:1px solid #eee ;border-radius:2px;padding:10px" >
 					<div style="position: relative;cursor:pointer" class="movie_hover"  @click="goUri(item.uri)">
 						<img class="item" src="../assets/images/play.png" style="position: absolute;top:50%;left:50%;margin-left:-10px;margin-top:-12px">
