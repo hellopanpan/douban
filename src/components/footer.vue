@@ -1,5 +1,5 @@
 <template>
-	<div class="container-fluid"style="background:#324157;">
+	<div class="container-fluid" style="background:#324157;">
 		<div class="container" style="padding-bottom:40px">
 			<div class=" col-xs-12 col-sm-3 pull-right">
 				<div class="hidden-xs col-sm-12" style="height:60px;line-height:60px;position:relative">
@@ -10,7 +10,7 @@
 					  trigger="click">
 					  <div style="">
 					  	<img style="width:200px;height:200px" :src="imgwe">
-					  	<p class="text-muted pt-10"style="font-size:10px">扫一扫上面的二维码图案，加我微信</p>
+					  	<p class="text-muted pt-10" style="font-size:10px">扫一扫上面的二维码图案，加我微信</p>
 					  </div>
 					</el-popover>		
 					<el-button v-popover:popover2 style="opacity:0;position:absolute;top:45px;right:60px;z-index:2">click
@@ -22,9 +22,9 @@
 			</div>
 
 			<div class="col-xs-12 col-sm-9 pull-left ">
-				<h3 style="color:#fff;font-size:22px ;font-family:Helvetica " class="pt-10">Douban R'bao 1.0.1 </h3>
+				<h3 style="color:#fff;font-size:22px ;font-family:Helvetica " class="pt-10">Douban日报 1.0.1 </h3>
 				<div class=" footer_span">
-					<span>反馈建议</span><span>贡献指南</span><span>@ panpan</span>
+					<span>反馈建议</span><span>贡献指南</span><span>@ xpanpan.com</span><a href="http://www.miitbeian.gov.cn">湘ICP备16012673号-1</a>
 				</div>
 
 			</div>

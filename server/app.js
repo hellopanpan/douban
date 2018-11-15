@@ -11,383 +11,267 @@ var eventproxy=require('eventproxy');
 
 var async=require('async');
 
+// 引入并创建数据库 douban
 var mongoose = require("./mongo.js")
-	
-var Schema = mongoose.Schema;
-var UserSchema = new Schema({//table 模式
-	index:{
+let doubanSchema = new mongoose.Schema({ //table 模式
+	piclink:{
 		type:String,
-		default: "xioami"
+		default: "douban"
+	},
+	picsrc:{
+		type: String,
+		default: "douban"
 	},
 	title:{
-		type: String
+		type: String,
+		default: "douban"
 	},
-	href:{
-		type: String
+	titlelink:{
+		type: String,
+		default: "douban"
 	},
-	date :{
-		type: String
+	person:{
+		type: String,
+		default: "douban"
 	},
-	nowdate:{
-		type: String
+	rate:{
+		type: String,
+		default: "douban"
+	},
+});
+let doubanVideoSchema = new mongoose.Schema({ //table 模式
+	title: {
+		type: String,
+		default: "douban"
+	},
+	start_time: {
+		type: String,
+		default: "douban"
+	},
+	cover: {
+		type: String,
+		default: "douban"
+	},
+	uri: {
+		type: String,
+		default: "douban"
+	},
+	type: {
+		type: String,
+		default: "douban"
 	}
-});	
-var User = mongoose.model("UserNew04",UserSchema);//table 
+});
+let doubanTimeSchema = new mongoose.Schema({ //table 模式
+	piclink:{
+		type:String,
+		default: "douban"
+	},
+	picsrc:{
+		type: String,
+		default: "douban"
+	},
+	title:{
+		type: String,
+		default: "douban"
+	},
+	titlelink:{
+		type: String,
+		default: "douban"
+	},
+	type:{
+		type: String,
+		default: "douban"
+	}
+});
+let doubanMusicModel = mongoose.model('doubanMusic', doubanSchema);// doubanMusic 集合名称；集合的结构对象
+let doubanVideoModel = mongoose.model('doubanVideo', doubanVideoSchema);// doubanMusic 集合名称；集合的结构对象
+let doubanTimeModel = mongoose.model('doubanTime', doubanTimeSchema);// doubanMusic 集合名称；集合的结构对象
+// 获取音乐列表，存入数据库
+let getMusic = (req, res) => {
+	superagent.get("https://www.douban.com/")
+		.end(function (err, sres) {
+			// 常规的错误处理
+			if (err) {
+					return next(err);
+			}
+			var $ = cheerio.load(sres.text);
+			var items = [];
+			$("#anony-music .album-list li").each(function (idx, element) {
+					var $element = $(element);
+					let obj = {
+						piclink: $element.find(".pic a").attr('href'),
+						picsrc: $element.find(".pic a img").attr('data-origin'),
+						title: $element.find(".title a").text(),
+						titlelink: $element.find(".title a").attr('href'),
+						person:  $element.find(".artist a").text(),
+						rate:  $element.find(".rating i").text()
+					}
+					items.push(obj);
+					// 逐个插入数据库
+					// let doubanMusic = new doubanMusicModel(obj);
+					// doubanMusic.save((err,res) => {
+					// 	if(err){
+					// 		console.log("error"+err);
+					// 	}else{
+					// 		console.log("res:"+res);
+					// 	}			
+					// })
+			});
+			if (items.length > 0 ) {
+				// 删除原有数据
+				doubanMusicModel.remove({}, (err) => {
+					if (err) {
+						console.log(err)
+					} else {
+						console.log('remove music success')
+					}
+				})
+				// 插入数据
+				doubanMusicModel.create(items,(err) => {
+					if (err) {
+						console.log(err)
+					} else {
+						console.log('insert music success')
+					}
+				})
+			}
+			// res.send(items);
+		});
+}
+// 获取影视列表，存入数据库
+let getVideo = (req, res) => {
+	// 取前一列视频数据
+	superagent.get("https://m.douban.com/rexxar/api/v2/muzzy/columns/10018/items?start=0&count=3").end((err, sres) =>{
+		// 常规的错误处理
+		var items = [];
+		if (err) {
+				return next(err);
+		}
+		let data1 = JSON.parse(sres.text).items;
+		items = items.concat(data1);
+		// 取后一列视频数据
+		superagent.get("https://m.douban.com/rexxar/api/v2/muzzy/columns/10008/items?start=0&count=3")
+			.end(function (err, sres) {
+					// 常规的错误处理
+					if (err) {
+							return next(err);
+					}
+					let data2 = JSON.parse(sres.text).items
+					if (data2.length === 0) {
+						console.log('获取视频2失败');
+						return;
+					}
+					items = items.concat(data2);
+					if (items.length > 0 ) {
+						// 删除原有数据
+						doubanVideoModel.remove({}, (err) => {
+							if (err) {
+								console.log(err)
+							} else {
+								console.log('remove Video success')
+							}
+						})
+						// 插入数据
+						doubanVideoModel.create(items,(err) => {
+							if (err) {
+								console.log(err)
+							} else {
+								console.log('insert Video success')
+							}
+						})
+					}
+			});
+	});
+}
+// 获取time列表
+let getTime = () => {
+	superagent.get("https://www.douban.com/")
+	.end(function (err, sres) {
+		// 常规的错误处理
+		if (err) {
+				return next(err);
+		}
+
+		var $ = cheerio.load(sres.text);
+		var items = [];
+		$("#anony-time .time-list li").each(function (idx, element) {
+				var $element = $(element);
+				items.push({
+						piclink: $element.find(".cover").attr('href'),
+						picsrc: $element.find("img").attr('src'),
+						title: $element.find(".title").text(),
+						titlelink: $element.find(".title").attr('href'),
+						type:  $element.find(".type").text()
+				});
+		});
+		if (items.length > 0 ) {
+			// 删除原有数据
+			doubanTimeModel.remove({}, (err) => {
+				if (err) {
+					console.log(err)
+				} else {
+					console.log('remove Video success')
+				}
+			})
+			// 插入数据
+			doubanTimeModel.create(items,(err) => {
+				if (err) {
+					console.log(err)
+				} else {
+					console.log('insert Video success')
+				}
+			})
+		}
+	});
+}
 app.listen(3000, function (req, res) {
   console.log('app is running at port 3000');
 });
 app.use(bodyParser.json());
-var cnodeUrl = 'https://cnodejs.org/';
+let cnodeUrl = 'https://cnodejs.org/';
 app.all('*', function(req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "X-Requested-With");
-	console.log('22222---->222')
+	console.log('connnect---->all')
 	next();
 });
-app.get('/', function (req, res, next) {
-  // 用 superagent 去抓取 https://cnodejs.org/ 的内容
-  superagent.get(cnodeUrl)
-    .end(function (err, sres) {
-      // 常规的错误处理
-      if (err) {
-        return next(err);
-      }
-      // sres.text 里面存储着网页的 html 内容，将它传给 cheerio.load 之后
-      // 就可以得到一个实现了 jquery 接口的变量，我们习惯性地将它命名为 `$`
-      // 剩下就都是 jquery 的内容了
-      var $ = cheerio.load(sres.text);
-      var items = [];
-      $('#topic_list .topic_title').each(function (idx, element) {		
-        var $element = $(element);
-        items.push({
-          title: $element.attr('title'),
-          href: $element.attr('href'),
-		  link:url.resolve(cnodeUrl, $element.attr('href'))
-        });
-      });
-
-      res.send(items);
-    });
-});
-
-
-
-app.get('/eventproxy', function (req, res, next) {
-  superagent.get(cnodeUrl)
-  .end(function (err, res) {
-    if (err) {
-      return console.error(err);
-    }
-    var topicUrls = [];
-    var $ = cheerio.load(res.text);
-    // 获取首页所有的链接
-    $('#topic_list .topic_title').each(function (idx, element) {
-      var $element = $(element);
-      // $element.attr('href') 本来的样子是 /topic/542acd7d5d28233425538b04
-      // 我们用 url.resolve 来自动推断出完整 url，变成
-      // https://cnodejs.org/topic/542acd7d5d28233425538b04 的形式
-      // 具体请看 http://nodejs.org/api/url.html#url_url_resolve_from_to 的示例
-      var href = url.resolve(cnodeUrl, $element.attr('href'));
-      topicUrls.push(href);
-    });
-
-    console.log(topicUrls);
-	
-	
-	//------------------------------------------------------
-	
-	// 得到一个 eventproxy 的实例
-	var ep = new eventproxy();
-	
-
-	// 命令 ep 重复监听 topicUrls.length 次（在这里也就是 40 次） `topic_html` 事件再行动
-	ep.after('topic_html', topicUrls.length, function (topics) {
-	  // topics 是个数组，包含了 40 次 ep.emit('topic_html', pair) 中的那 40 个 pair
-
-	  // 开始行动
-	  topics = topics.map(function (topicPair) {
-		// 接下来都是 jquery 的用法了
-		var topicUrl = topicPair[0];
-		var topicHtml = topicPair[1];
-		var $ = cheerio.load(topicHtml);
-		return ({
-		  title: $('.topic_full_title').text().trim(),
-		  href: topicUrl,
-		  comment1: $('.reply_content').eq(0).text().trim(),
-		});
-	  });
-
-	  console.log('final:');
-	  console.log(topics);
-	});
-
-	topicUrls.forEach(function (topicUrl) {
-	  superagent.get(topicUrl)
-		.end(function (err, res) {
-		  console.log('fetch ' + topicUrl + ' successful');
-		  ep.emit('topic_html', [topicUrl, res.text]);
-		});
-	});
-	
-	
-	
-	
-  });
-});
-
-
-app.get('/async', function (req, res, next) {
-	var resSend = res ;
-	// 并发连接数的计数器
-	var concurrencyCount = 0;
-	var companyJsonStr = [];
-	var fetchUrl = function (url, callback) {
-	concurrencyCount++;
-	console.log('现在的并发数是', concurrencyCount, '，正在抓取的是', url);
-	    superagent.get(url)
-		.end(function (err, res) {
-		  console.log('fetch ' + url + ' successful');
-		  var delay = parseInt((Math.random() * 1000) % 2000, 10);
-		  //concurrencyCount--;
-		  //callback(null, url );
-		  var $elem = cheerio.load(res.text);
-		  var companyJson=({
-			 name: url 
-		  });
-		  companyJsonStr = {
-			  name: 'url:'+url 
-		  };
-		  setTimeout(function () {
-			concurrencyCount--;
-			callback(null, companyJson);
-		  }, delay);
-		});
-	};
-	
-	var urls = [];
-	superagent.get(cnodeUrl)
-	  .end(function (err, res) {
+app.get("/douban/data",(req, res, next) => {
+	getVideo();
+	getMusic();
+	getTime();
+	res.send('search all data')
+})
+app.get("/douban/time",(req,res,next) => {
+	doubanTimeModel.find({}).exec(function(err, respon){
 		if (err) {
-		  return console.error(err);
+			console.log("Error:" + err);
 		}
-		var $ = cheerio.load(res.text);
-		// 获取首页所有的链接
-		$('#topic_list .topic_title').each(function (idx, element) {
-		  var $element = $(element);
-		  // $element.attr('href') 本来的样子是 /topic/542acd7d5d28233425538b04
-		  // 我们用 url.resolve 来自动推断出完整 url，变成
-		  // https://cnodejs.org/topic/542acd7d5d28233425538b04 的形式
-		  // 具体请看 http://nodejs.org/api/url.html#url_url_resolve_from_to 的示例
-		  var href = url.resolve(cnodeUrl, $element.attr('href'));
-		  urls.push(href);
-		});
-
-		//console.log(urls);
-		
-		async.mapLimit(urls, 5, function (url, callback) {
-		  fetchUrl(url, callback);
-		}, function (err, result) {
-		  console.log('final:');
-		  console.log(result);
-		  resSend.send(result);
-		});
-	  });
-	
-
-});
-var csuUrl = 'http://jobsky.csu.edu.cn/Home/PartialArticleList';
-app.get('/csu', function (req, res, next) {
-  // 用 superagent 去抓取 https://cnodejs.org/ 的内容
-  var pageindex = 1;
-  superagent.post(csuUrl)
-	.set('Content-Type', 'application/x-www-form-urlencoded')
-    .send({pageindex:pageindex,pagesize:15,typeid:1,followingdates:-1})
-    .end(function (err, sres) {
-		console.log('222');
-      // 常规的错误处理
-      if (err) {
-		console.log(err);
-        return next(err);
-      }
-      // sres.text 里面存储着网页的 html 内容，将它传给 cheerio.load 之后
-      // 就可以得到一个实现了 jquery 接口的变量，我们习惯性地将它命名为 `$`
-      // 剩下就都是 jquery 的内容了
-      var $ = cheerio.load(sres.text);
-      var items = [];
-		console.log("111"+sres.text);
-      $("tr").each(function (idx, element) {
-		console.log('1');
-        var $element = $(element);
-        items.push({
-		  index: idx,
-          title: decodeURIComponent($element.find("td a").text()),
-          href: $element.find("td a").attr('href'),
-		  date:$element.find(".spanDate").html()
-        });
-      }); 
-      res.send(items);
-    });
-});
-
-app.get('/csuAll', function (req, res, next) {
-	var resSend = res ;
-	var csuHeadUrl = 'http://jobsky.csu.edu.cn';
-	// 并发连接数的计数器
-	var concurrencyCount = 0;
-	var pageindex = 1;
-	var companyJsonStr = [];
-	var fetchUrl = function (url, callback) {
-	concurrencyCount++;
-	console.log('现在的并发数是', concurrencyCount, '，正在抓取的是', url);
-	    superagent.post(url)
-		.set('Content-Type', 'application/x-www-form-urlencoded')
-		.send({pageindex:pageindex,pagesize:15,typeid:1,followingdates:-1})
-		.end(function (err, xres) {
-		  pageindex++;
-		  console.log(pageindex);
-		  //console.log('fetch ' + url + ' successful');
-		  var delay = parseInt((Math.random() * 1000000) % 2000, 10);
-		  //concurrencyCount--;
-		  //callback(null, url );
-		  var $ = cheerio.load(xres.text);
-		  //console.log(xres.text);
-		  var items = [];
-		  $("tr").each(function (idx, element) {
-			//console.log('1');
-			var $element = $(element);
-			var obj= {
-			  index: idx,
-			  title: decodeURIComponent($element.find("td a").text()),
-			  href: csuHeadUrl+$element.find("td a").attr('href'),
-			  date:$element.find(".spanDate").html()
-			};
-			function insert(obj){
-				console.log(obj)
-				var user = new User(obj);
-				user.save(function(err,res){
-					if(err){
-						console.log("error"+err);
-					}else{
-						//console.log("res:"+res);
-					}
-					  
-					  
-				})
-			 };
-			 obj.nowdate = new Date().toLocaleDateString();
-			 insert(obj);
-			 items.push(obj);
-		  }); 
-		  setTimeout(function () {
-			concurrencyCount--;
-			callback(null, items);
-		  }, delay);
-		});
-	};
-	
-	var urls = [];
-	for(var i = 0; i <= 20; i++){
-		urls.push("http://jobsky.csu.edu.cn/Home/PartialArticleList");
-	}
-		//console.log(urls);
-		
-	async.mapLimit(urls, 5, function (url, callback) {
-	  fetchUrl(url, callback);
-	}, function (err, result) {
-	  console.log('final:');
-	  //console.log(result);
-	  resSend.send(result);
-	});
-	
-});
-
-app.get("/data",function(req,res,next){
-	function find(){
-		//var wherestr = {'username' : 'Tracy McGrady'};
-		//User.find({userage: {$gte: 21, $lte: 65}}, callback);   >=21,<=65
-		//正则 var whereStr = {'username':{$regex:/m/i}};
-		User.find({"date":"2017.10.22"}).sort({"index": -1}).limit(50).exec(function(err, respon){
-			if (err) {
-				console.log("Error:" + err);
-			}
-			else {
-				console.log("Res:" + respon);
-				res.send(respon);
-			}
-		})
-	}
-	find(); 
- 
-});
-app.get("/douban/time",function(req,res,next){
-    superagent.get("https://www.douban.com/")
-        .end(function (err, sres) {
-            // 常规的错误处理
-            if (err) {
-                return next(err);
-            }
-
-            var $ = cheerio.load(sres.text);
-            var items = [];
-            $("#anony-time .time-list li").each(function (idx, element) {
-                var $element = $(element);
-                items.push({
-                    piclink: $element.find(".cover").attr('href'),
-                    picsrc: $element.find("img").attr('src'),
-                    title: $element.find(".title").text(),
-					titlelink: $element.find(".title").attr('href'),
-					type:  $element.find(".type").text()
-                });
-            });
-            res.send(items);
-        });
+		else {
+			res.send(respon);
+		}
+	})
 });
 app.get("/douban/video",function(req,res,next){
-	var items = [];
-    superagent.get("https://m.douban.com/rexxar/api/v2/muzzy/columns/1001/items?start=0&count=3")
-        .end(function (err, sres) {
-            // 常规的错误处理
-            if (err) {
-                return next(err);
-            }
-
-            items.push(JSON.parse(sres.text));
-            superagent.get("https://m.douban.com/rexxar/api/v2/muzzy/columns/10006/items?start=0&count=3")
-                .end(function (err, sres) {
-                    // 常规的错误处理
-                    if (err) {
-                        return next(err);
-                    }
-                    items.push(JSON.parse(sres.text));
-                    res.send(items);
-
-                });
-
-        });
+	doubanVideoModel.find({}).exec(function(err, respon){
+		if (err) {
+			console.log("Error:" + err);
+		}
+		else {
+			res.send(respon);
+		}
+	})
 });
 app.get("/douban/music",function(req,res,next){
-    superagent.get("https://www.douban.com/")
-        .end(function (err, sres) {
-            // 常规的错误处理
-            if (err) {
-                return next(err);
-            }
-
-            var $ = cheerio.load(sres.text);
-            var items = [];
-            $("#anony-music .album-list li").each(function (idx, element) {
-                var $element = $(element);
-                items.push({
-                    piclink: $element.find(".pic a").attr('href'),
-                    picsrc: $element.find(".pic a img").attr('data-origin'),
-                    title: $element.find(".title a").text(),
-                    titlelink: $element.find(".title a").attr('href'),
-                    person:  $element.find(".artist a").text(),
-                    rate:  $element.find(".rating i").text()
-                });
-            });
-            res.send(items);
-        });
+	// 查询已有数据
+	doubanMusicModel.find({}).exec(function(err, respon){
+		if (err) {
+			console.log("Error:" + err);
+		}
+		else {
+			console.log("Res:" + respon);
+			res.send(respon);
+		}
+	})
 });
 app.post("/douban/video/con",function(req,res,next){
 	var obj = req.body;
@@ -400,10 +284,9 @@ app.post("/douban/video/con",function(req,res,next){
             };
             var $ = cheerio.load(sres.text);
             var item = {
-                video: $(".video-wrapper .video-player video").attr('src'),
-				title: $(".note-header h1").text(),
-				introduction: $(".note .introduction p").text()
-			}
+              video: $("#player source").attr('src') || $(".video-player video").attr('src'),
+							title: $("h1").text()
+						}
             console.log(item);
             res.send(item);
         });

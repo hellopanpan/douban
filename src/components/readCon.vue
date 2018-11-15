@@ -15,8 +15,7 @@
 							<el-breadcrumb-item>豆瓣搜索</el-breadcrumb-item>
 						</el-breadcrumb>
 					</div>
-					<div class="col-xs-12 col-md-6 col-sm-6 col-lg-6 pb-10" v-for="(item,index) in dataTrue">
-
+					<div class="col-xs-12 col-md-6 col-sm-6 col-lg-6 pb-10" v-for="(item,index) in dataTrue" :key="item.picsrc">
 						<div class="" style="width:100%;border:1px solid #fff ;border-radius:2px;padding:10px;min-height:200px" >
 							<div class="row">
 								<div class="col-xs-4 ">
@@ -27,7 +26,7 @@
 									<p class="text-muted auto-hide" style="padding-left:5px">{{item.person}}</p>
 									<p class="text-muted auto-hide2" style="padding-left:5px;font-size:10px">{{item.disc}}</p>
 									<el-rate  v-if ="rateNum[index]" v-model="rateNum[index]"></el-rate>
-									<h4 v-if ="!rateNum[index]"class="text-muted auto-hide" >暂无评论</h4>
+									<h4 v-if ="!rateNum[index]" class="text-muted auto-hide" >暂无评论</h4>
 								</div>
 							</div>
 
@@ -35,12 +34,12 @@
 					</div>
 
 					<div class="col-md-12" v-if="dataTrue.length == 0">
-						<p class="text-muted"style="padding:30px 0"> 在上方输入框键入关键词，开始搜索</p>
+						<p class="text-muted" style="padding:30px 0"> 在上方输入框键入关键词，开始搜索</p>
 					</div>
 				</div>
 			</div>
 			<div class= "container" v-loading="loading1" v-if="yesmore">
-				<div class="col-xs-8 col-md-6 col-md-push-3 col-xs-push-2 "style="text-align:center;padding:10px;border:1px solid #eee;margin:10px;border-radius:5px;cursor:pointer;;margin-bottom:30px;background:#eee" @click="loadMore">
+				<div class="col-xs-8 col-md-6 col-md-push-3 col-xs-push-2 " style="text-align:center;padding:10px;border:1px solid #eee;margin:10px;border-radius:5px;cursor:pointer;;margin-bottom:30px;background:#eee" @click="loadMore">
 					<i class="el-icon-caret-bottom"></i>
 					<span class="text-muted" style="">Load More</span>
 				</div>
@@ -53,17 +52,17 @@
     import Search from './search.vue'
 	export default{
 	    data(){
-	        return{
-	            value1: 3,
-	            value2: true,
-				data: [],
-                loading2: false,
-                loading1: false,
-                rateNum: [],
-                tag:"read",
-                dataTrue:[],
-                dataNum:0,
-                yesmore: true
+				return{
+					value1: 3,
+					value2: true,
+					data: [],
+					loading2: false,
+					loading1: false,
+					rateNum: [],
+					tag:"read",
+					dataTrue:[],
+					dataNum:0,
+					yesmore: true
 			}
 		},
 		props:{
@@ -96,7 +95,6 @@
 				this.data = data;
 				var vm = this;
 				vm.dataTrue=vm.dataTrue.concat(vm.data);
-
 			},
 			loading(){
 				if(this.dataNum == 0){

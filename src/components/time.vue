@@ -12,10 +12,10 @@
 					<el-breadcrumb-item>热门专栏</el-breadcrumb-item>
 				</el-breadcrumb>
 			</div>
-			<div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 pb-10" v-for="item in data">
-				<div class="" style="width:100%;height:100%;border:1px solid #fff ;border-radius:2px;padding:10px">
-					<a :href="item.piclink"><img :src="item.picsrc" style="width:100%;max-height:70%"></a>
-					<p class="text-primary" style="padding:10px 0;height:40px;overflow: hidden">{{item.title}}</p>
+			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 pb-10" v-for="item in data" v-bind:key="item.picsrc">
+				<div class="time">
+					<a :href="item.piclink"><img :src="item.picsrc" ></a>
+					<p class="text-primary" >{{item.title}}</p>
 					<el-badge value="new" class="item">
 						<el-button size="small">{{item.type}}</el-button>
 					</el-badge>
@@ -69,6 +69,26 @@
 	@media screen and (max-width: 608px) {
 		.container {
 			padding:0;
+		}
+	}
+	.time{
+		text-align: center;
+		padding-bottom: 20px;
+		img{
+			width: 150px;
+			height: 150*1.4px;
+		}
+		.text-primary{
+			opacity: 0.9;
+			width: 80%;
+			font-size: 17px;
+			font-weight: 500;
+			margin-top: 10px;
+			width: 100%;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+			text-align: center;
 		}
 	}
 

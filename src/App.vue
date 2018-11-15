@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-      <div class="container-fluid"style="background:#324157;">
+      <div class="container-fluid" style="background:#324157;">
               <div class="container">
               <div class="row">
                   <div class="col-md-2 hidden-sm col-xs-10"  style="height:60px;line-height:60px;">
@@ -20,8 +20,8 @@
                   <div class="col-md-2 col-sm-2 hidden-xs" style="height:60px;line-height:60px;position:relative">
                       <img @click="showGit" src="./assets/images/github-01.png" style="position: absolute;top:10px;right:0;max-height:40px;max-width:40px;display:inline-block;cursor:pointer">
                   </div>
-                  <div class="col-xs-2 hidden-sm hidden-md hidden-lg"style="postion:relative">
-                      <div style="position: absolute;top:20px;right:10px;cursor:pointer"@click="changeTheIcon">
+                  <div class="col-xs-2 hidden-sm hidden-md hidden-lg" style="postion:relative">
+                      <div style="position: absolute;top:20px;right:10px;cursor:pointer" @click="changeTheIcon">
                           <span class="sr-only">切换导航</span>
                           <span class="icon-bar"></span>
                           <span class="icon-bar"></span>
@@ -44,11 +44,9 @@
                   </el-menu>
               </div>
           </div>
-      </div>
-      
+      </div>    
       <transition name="fade"><router-view ></router-view></transition>
       <footer-con></footer-con>
-
  </div>
 </template>
 
