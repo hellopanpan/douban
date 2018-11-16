@@ -1,6 +1,6 @@
 var path = require('path')
 var webpack = require('webpack')
-
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   entry: './src/main.js',
   output: {
@@ -72,27 +72,27 @@ module.exports = {
           var log = proxyReq.method + '------>' + proxyReq.path
           console.info(log)
         }
-      },
-      "/doulib": {
-        target: 'http://localhost:8081',
-        pathRewrite:{"^/doulib": ""},
-        onProxyReq: function(proxyReq, req, res) {
-          var log = proxyReq.method + '------>' + proxyReq.path
-          console.info(log)
-        }
       }
     },
   },
   performance: {
     hints: false
   },
-  devtool: '#eval-source-map'
+  devtool: '#eval-source-map',
+  plugins: [
+    new webpack.ProvidePlugin({
+      "$": "jquery",
+      "jQuery": "jquery",
+      "window.jQuery": "jquery"
+    })
+  ]
 }
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'
   // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
+
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"'
@@ -106,6 +106,10 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
+    }),
+    new HtmlWebpackPlugin({
+      template: __dirname + "/index.html"
     })
+
   ])
 }
