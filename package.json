@@ -8,7 +8,8 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --port 8081",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "start": "webpack",
-    "server": "node ./server/app.js"
+    "server": "node ./server/app.js",
+    "pm2": "pm2 start npm --name douban_vue --watch -- run dev && pm2 start npm --name douban_server --watch -- run devsudo"
   },
   "dependencies": {
     "vue": "^2.3.3",
