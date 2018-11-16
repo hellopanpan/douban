@@ -4,8 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   entry: './src/main.js',
   output: {
-    path: path.resolve(__dirname, './react/dist'),
-    publicPath: '/react/dist/',
+    path: path.resolve(__dirname, './doulib/dist'),
+    publicPath: '/doulib/dist/',
     filename: 'build.js'
   },
   module: {
