@@ -72,6 +72,14 @@ module.exports = {
           var log = proxyReq.method + '------>' + proxyReq.path
           console.info(log)
         }
+      },
+      "/doulib": {
+        target: 'http://localhost:8081',
+        pathRewrite:{"^/doulib": ""},
+        onProxyReq: function(proxyReq, req, res) {
+          var log = proxyReq.method + '------>' + proxyReq.path
+          console.info(log)
+        }
       }
     },
   },
