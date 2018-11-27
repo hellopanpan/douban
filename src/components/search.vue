@@ -20,7 +20,7 @@
 				input:"",
 				data:[],
 				params:{},
-                imgBg:  require("../assets/images/bg01.png"),
+                imgBg:  require("../assets/images/bg01.jpg"),
             }
         },
         props:{
