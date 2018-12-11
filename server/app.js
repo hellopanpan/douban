@@ -10,10 +10,15 @@ var bodyParser = require('body-parser');
 var eventproxy=require('eventproxy');
 
 var async=require('async');
+let MusicIndex = 1;
 
 // 引入并创建数据库 douban
 var mongoose = require("./mongo.js")
 let doubanSchema = new mongoose.Schema({ //table 模式
+  picIndex:{
+    type:String,
+		default: "douban"
+  },
 	piclink:{
 		type:String,
 		default: "douban"
@@ -86,7 +91,26 @@ let doubanTimeSchema = new mongoose.Schema({ //table 模式
 let doubanMusicModel = mongoose.model('doubanMusic', doubanSchema);// doubanMusic 集合名称；集合的结构对象
 let doubanVideoModel = mongoose.model('doubanVideo', doubanVideoSchema);// doubanMusic 集合名称；集合的结构对象
 let doubanTimeModel = mongoose.model('doubanTime', doubanTimeSchema);// doubanMusic 集合名称；集合的结构对象
-// 获取音乐列表，存入数据库
+// 下载图片
+let downPic = (ary) => {
+  for(var i in ary) {
+    console.log(ary[i]);
+    //通过url重新连接服务器，获取图片，将图片写到磁盘上
+    http.get(ary[i], function (res) {
+        res.setEncoding('binary');//转成二进制
+        var content = '';
+        res.on('data', function (data) {
+           content+=data;
+        }).on('end', function () {
+           fs.writeFile('./public/'+ x++ + '.jpg',content,'binary', function (err) {
+               if (err) throw err;
+               console.log('保存完成');
+           });
+        });
+    });
+  }
+}
+// 获取音乐列表，存入数据
 let getMusic = (req, res) => {
 	superagent.get("https://www.douban.com/")
 		.end(function (err, sres) {
@@ -116,7 +140,12 @@ let getMusic = (req, res) => {
 					// 		console.log("res:"+res);
 					// 	}			
 					// })
-			});
+      });
+      let picArr = items.map((item, index) => {
+        item.picIndex = './pubic' + index + '.jpg';
+        return item.picsrc
+      })
+      downPic(picArr)
 			if (items.length > 0 ) {
 				// 删除原有数据
 				doubanMusicModel.remove({}, (err) => {
@@ -238,7 +267,7 @@ app.all('*', function(req, res, next) {
 app.get("/douban/data",(req, res, next) => {
 	getVideo();
 	getMusic();
-	getTime();
+  getTime();
 	res.send('search all data')
 })
 app.get("/douban/time",(req,res,next) => {
