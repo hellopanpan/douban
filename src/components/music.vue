@@ -16,7 +16,7 @@
 					<div class="music-cont" style="width:100%;border:1px solid #fff ;border-radius:2px;padding:10px" >
 						<div class="row">
 							<div class="col-xs-12 pic" >
-								<a :href="item.piclink"><img :src="item.picIndex" ></a>
+								<a :href="item.piclink"><img :src="item.picsrc" ></a>
 							</div>
 							<div class="col-xs-12 flex-cen">
 								<h4 class="text-primary" >{{item.title}}</h4>
