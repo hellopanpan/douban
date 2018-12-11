@@ -6,7 +6,8 @@ var superagent= require('superagent');
 var cheerio= require('cheerio');
 var url = require('url');
 var bodyParser = require('body-parser');
-
+var http =require('http');
+var fs = require('fs');
 var eventproxy=require('eventproxy');
 
 var async=require('async');
