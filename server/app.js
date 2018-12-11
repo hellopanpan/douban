@@ -144,7 +144,8 @@ let getMusic = (req, res) => {
       });
       let picArr = items.map((item, index) => {
         item.picIndex = './pubic' + index + '.jpg';
-        return item.picsrc
+        let picsrc = item.picsrc.replace('https', 'http')
+        return picsrc
       })
       downPic(picArr)
 			if (items.length > 0 ) {
