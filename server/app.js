@@ -12,6 +12,7 @@ var eventproxy=require('eventproxy');
 
 var async=require('async');
 let MusicIndex = 1;
+let numx = 0;
 
 // 引入并创建数据库 douban
 var mongoose = require("./mongo.js")
@@ -103,7 +104,7 @@ let downPic = (ary) => {
         res.on('data', function (data) {
            content+=data;
         }).on('end', function () {
-           fs.writeFile('./public/'+ x++ + '.jpg',content,'binary', function (err) {
+           fs.writeFile('./public/'+ numx++ + '.jpg',content,'binary', function (err) {
                if (err) throw err;
                console.log('保存完成');
            });
