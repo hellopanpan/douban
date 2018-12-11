@@ -104,7 +104,7 @@ let downPic = (ary) => {
         res.on('data', function (data) {
            content+=data;
         }).on('end', function () {
-           fs.writeFile(__dirname + './public/'+ numx++ + '.jpg',content,'binary', function (err) {
+           fs.writeFile(__dirname + '/public/'+ numx++ + '.jpg',content,'binary', function (err) {
                if (err) throw err;
                console.log('保存完成');
            });
