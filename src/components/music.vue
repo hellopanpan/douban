@@ -41,30 +41,30 @@
 	</div>
 </template>
 <script>
-    import Axios from 'axios'
+  import Axios from 'axios'
 	export default{
 	    data(){
-	        return{
-	            value1: 3,
-	            value2: true,
-				data: '',
-				loading2: false,
-				dialogTableVisible: false,
-				openSrc: '',
-				clientWidth: '',
-                rateNum: []
+        return{
+          value1: 3,
+          value2: true,
+          data: '',
+          loading2: false,
+          dialogTableVisible: false,
+          openSrc: '',
+          clientWidth: '',
+          rateNum: []
 			}
 		},
 		computed: {
-          	modalSize: function () {
-                if(this.clientWidth < 768){
-                    return "full"
-                } else if(this.clientWidth < 1170){
-				    return "large"
-				} else{
-				    return "small"
-				}
-            }
+      modalSize: function () {
+        if(this.clientWidth < 768){
+          return "full"
+        } else if(this.clientWidth < 1170){
+            return "large"
+        } else{
+          return "small"
+        }
+      }
 		},
 		mounted(){
 			this.clientWidth = `${document.documentElement.clientWidth}`;
@@ -75,33 +75,37 @@
 				this.dialogTableVisible = true;
 				this.openSrc = url;
 			},
-		    getTimeData() {
-		        var vm = this;
-                vm.loading2 = true;
-                Axios
-					.get("/cross/douban/music")
-					.then(function (res) {
-					    vm.loading2 = false;
-                    	 vm.data =  res.data;
-                    	 for(var i = 0;i< vm.data.length;i++){
-                    	     vm.rateNum.push(Math.floor(vm.data[i].rate /10 * 5));
-						 }
-                	})
-					.catch(function () {
-						vm.loading2 = false;
-                    })
+      getTimeData() {
+        var vm = this;
+        vm.loading2 = true;
+        Axios
+        .get("/cross/douban/music")
+        .then(function (res) {
+            vm.loading2 = false;
+            vm.data =  res.data;
+            debugger
+            let douban = /douban/.test(location.herf)
+            let doustr = douban ? 'douban' : ''
+            vm.data.map((item, index) => {
+              item.picIndex = location.protocol + '//' + location.host + doustr + item.picIndex
+            })
+            for(var i = 0;i< vm.data.length;i++){
+            vm.rateNum.push(Math.floor(vm.data[i].rate /10 * 5));
+          }
+        })
+        .catch(function () {
+          vm.loading2 = false;
+        })
 			},
 			toRate(value) {
-                return (value/10 * 5).toFixed(0);
+        return (value/10 * 5).toFixed(0);
 			}
 		},
 		filters:{
-		    torRate: function (value) {
-				return (value/10 * 5).toFixed(0);
-            }
+      torRate: function (value) {
+        return (value/10 * 5).toFixed(0);
+      }
 		}
-
-
 	}
 </script>
 

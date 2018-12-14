@@ -104,7 +104,7 @@ let downPic = (ary) => {
         res.on('data', function (data) {
            content+=data;
         }).on('end', function () {
-           fs.writeFile(__dirname + '/public/'+ numx++ + '.jpg',content,'binary', function (err) {
+           fs.writeFile(__dirname + '/../src/assets/pic/'+ numx++ + '.jpg',content,'binary', function (err) {
                if (err) throw err;
                console.log('保存完成');
            });
@@ -144,7 +144,7 @@ let getMusic = (req, res) => {
 					// })
       });
       let picArr = items.map((item, index) => {
-        item.picIndex = './pubic' + index + '.jpg';
+        item.picIndex = '/src/assets/pic/' + index + '.jpg';
         let picsrc = item.picsrc.replace('https', 'http')
         item.picsrc = item.picsrc.replace('https', 'http')
         return picsrc
