@@ -114,6 +114,7 @@ let downPic = (ary) => {
 }
 // 获取音乐列表，存入数据
 let getMusic = (req, res) => {
+  numx = 0;
 	superagent.get("https://www.douban.com/")
 		.end(function (err, sres) {
 			// 常规的错误处理
