@@ -84,8 +84,8 @@
             vm.loading2 = false;
             vm.data =  res.data;
             debugger
-            let douban = /douban/.test(location.herf)
-            let doustr = douban ? 'douban' : ''
+            let douban = /douban/.test(location.href)
+            let doustr = douban ? '/douban' : ''
             vm.data.map((item, index) => {
               item.picIndex = location.protocol + '//' + location.host + doustr + item.picIndex
             })
