@@ -2,11 +2,13 @@ var path = require('path')
 var webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
-  entry: './src/main.js',
+  entry: {
+    build: './src/main.js'
+  },
   output: {
     path: path.resolve(__dirname, './doudou/dist'),
     publicPath: '/doudou/dist/',
-    filename: 'build.js'
+    filename: '[name].js',
   },
   module: {
     rules: [
@@ -107,7 +109,7 @@ if (process.env.NODE_ENV === 'production') {
       }
     }),
     new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
+      sourceMap: false,
       compress: {
         warnings: false
       }
@@ -117,7 +119,31 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new HtmlWebpackPlugin({
       template: __dirname + "/index.html"
-    })
-
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks(module) {
+        // any required modules inside node_modules are extracted to vendor
+        return (
+          module.resource &&
+          /\.js$/.test(module.resource) &&
+          module.resource.indexOf(
+            path.join(__dirname, './node_modules')
+          ) === 0
+        )
+      }
+    }),
+    // extract webpack runtime and module manifest to its own file in order to
+    // prevent vendor hash from being updated whenever app bundle is updated
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'manifest',
+      minChunks: Infinity
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'build',
+      async: 'vendor-async',
+      children: true,
+      minChunks: 3
+    }),   
   ])
 }
