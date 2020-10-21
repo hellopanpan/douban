@@ -153,7 +153,7 @@ let getMusic = (req, res) => {
         // })
       });
       let picArr = items.map((item, index) => {
-        item.picIndex = 'http://localhost:'+ listener.address().port + '/public/' + index + '.jpg';
+        item.picIndex = '../cross/public/' + index + '.jpg';
         item.picsrc = item.picsrc.replace('https', 'http');
         let picsrc = item.picsrc.replace('https', 'http')
         return picsrc
