@@ -10,7 +10,7 @@
     "express": "^4.13.3",
     "koa": "^2.3.0",
     "moment": "^2.19.1",
-    "mongoose": "^4.12.1",
+    "mongoose": "^5.7.5",
     "request": "^2.83.0",
     "superagent": "^1.4.0",
     "util": "^0.10.3"
