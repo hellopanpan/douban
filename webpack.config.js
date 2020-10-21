@@ -6,8 +6,8 @@ module.exports = {
     build: './src/main.js'
   },
   output: {
-    path: path.resolve(__dirname, './doudou/dist'),
-    publicPath: '/doudou/dist/',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: './',
     filename: '[name].js',
   },
   module: {
@@ -117,9 +117,7 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.LoaderOptionsPlugin({
       minimize: true
     }),
-    new HtmlWebpackPlugin({
-      template: __dirname + "/index.html"
-    }),
+    new HtmlWebpackPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks(module) {
