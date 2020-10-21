@@ -22,7 +22,7 @@
 			</div>
 
 			<div class="col-xs-12 col-sm-9 pull-left ">
-				<h3 style="color:#fff;font-size:22px ;font-family:Helvetica " class="pt-10">Douban日报 1.0.1 </h3>
+				<h3 style="color:#fff;font-size:22px ;font-family:Helvetica " class="pt-10">豆瓣搜搜 1.0.1 </h3>
 				<div class=" footer_span">
 					<span>反馈建议</span><span>贡献指南</span><span>@ xpanpan.com</span><a href="http://www.miitbeian.gov.cn">湘ICP备16012673号-1</a>
 				</div>
