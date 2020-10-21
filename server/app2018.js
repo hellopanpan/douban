@@ -98,10 +98,10 @@ app.get('/eventproxy', function (req, res, next) {
 	
 	// 得到一个 eventproxy 的实例
 	var ep = new eventproxy();
-	
+  let getNum = 1
 
 	// 命令 ep 重复监听 topicUrls.length 次（在这里也就是 40 次） `topic_html` 事件再行动
-	ep.after('topic_html', topicUrls.length, function (topics) {
+	ep.bind('topic_html', function (topics) {
 	  // topics 是个数组，包含了 40 次 ep.emit('topic_html', pair) 中的那 40 个 pair
 
 	  // 开始行动

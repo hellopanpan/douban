@@ -38,7 +38,7 @@
 </script>
 <style>
 @import url(https://unpkg.com/animate.css@3.5.1/animate.min.css);	
-	.shouye{height:90%;width:100%;background:#fff;verflow:scroll;}
+	.shouye{height:90%;width:100%;background:#fff;overflow:scroll;}
 	.shouye ul{width:100%;}
 	.shouye .header{height:10%;width:100%;margin:0;background:#eee;}
 	.shouye .page1{height:90%;width:100%;;box-sizing:border-box;}

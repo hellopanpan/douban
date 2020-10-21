@@ -93,6 +93,13 @@ let doubanTimeSchema = new mongoose.Schema({ //table 模式
 let doubanMusicModel = mongoose.model('doubanMusic', doubanSchema);// doubanMusic 集合名称；集合的结构对象
 let doubanVideoModel = mongoose.model('doubanVideo', doubanVideoSchema);// doubanMusic 集合名称；集合的结构对象
 let doubanTimeModel = mongoose.model('doubanTime', doubanTimeSchema);// doubanMusic 集合名称；集合的结构对象
+
+// 使用express创建静态服务器
+app.use(express.static("./server"));
+
+var listener = app.listen(3000, function (req, res) {
+  console.log('app is running at port 3000');
+});
 // 下载图片
 let downPic = (ary) => {
   for(var i in ary) {
@@ -104,7 +111,7 @@ let downPic = (ary) => {
         res.on('data', function (data) {
            content+=data;
         }).on('end', function () {
-           fs.writeFile(__dirname + '/../src/assets/pic/'+ numx++ + '.jpg',content,'binary', function (err) {
+           fs.writeFile(__dirname + '/public/'+ numx++ + '.jpg',content,'binary', function (err) {
                if (err) throw err;
                console.log('保存完成');
            });
@@ -124,30 +131,31 @@ let getMusic = (req, res) => {
 			var $ = cheerio.load(sres.text);
 			var items = [];
 			$("#anony-music .album-list li").each(function (idx, element) {
-					var $element = $(element);
-					let obj = {
-						piclink: $element.find(".pic a").attr('href'),
-						picsrc: $element.find(".pic a img").attr('data-origin'),
-						title: $element.find(".title a").text(),
-						titlelink: $element.find(".title a").attr('href'),
-						person:  $element.find(".artist a").text(),
-						rate:  $element.find(".rating i").text()
-					}
-					items.push(obj);
-					// 逐个插入数据库
-					// let doubanMusic = new doubanMusicModel(obj);
-					// doubanMusic.save((err,res) => {
-					// 	if(err){
-					// 		console.log("error"+err);
-					// 	}else{
-					// 		console.log("res:"+res);
-					// 	}			
-					// })
+        console.log('music-------')
+        var $element = $(element);
+        let obj = {
+          piclink: $element.find(".pic a").attr('href'),
+          picsrc: $element.find(".pic a img").attr('data-origin'),
+          title: $element.find(".title a").text(),
+          titlelink: $element.find(".title a").attr('href'),
+          person:  $element.find(".artist a").text(),
+          rate:  $element.find(".rating i").text()
+        }
+        items.push(obj);
+        // 逐个插入数据库
+        // let doubanMusic = new doubanMusicModel(obj);
+        // doubanMusic.save((err,res) => {
+        // 	if(err){
+        // 		console.log("error"+err);
+        // 	}else{
+        // 		console.log("res:"+res);
+        // 	}			
+        // })
       });
       let picArr = items.map((item, index) => {
-        item.picIndex = '/src/assets/pic/' + index + '.jpg';
+        item.picIndex = 'http://localhost:'+ listener.address().port + '/public/' + index + '.jpg';
+        item.picsrc = item.picsrc.replace('https', 'http');
         let picsrc = item.picsrc.replace('https', 'http')
-        item.picsrc = item.picsrc.replace('https', 'http')
         return picsrc
       })
       downPic(picArr)
@@ -258,9 +266,6 @@ let getTime = () => {
 		}
 	});
 }
-app.listen(3000, function (req, res) {
-  console.log('app is running at port 3000');
-});
 app.use(bodyParser.json());
 let cnodeUrl = 'https://cnodejs.org/';
 app.all('*', function(req, res, next) {

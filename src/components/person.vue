@@ -1,11 +1,11 @@
 <template>
 	<DIV Class="person container-fuild">
 		<div style="background:#eef;">
-			<div class="container">
+			<div class="">
 				<h2 style="margin-top:0"><span class="glyphicon glyphicon-bookmark"></span> 个人Demo</h2>
 			</div>
 		</div>
-		<div class="content container"style="padding-top:20px">
+		<div class="content "style="padding-top:20px">
 			<el-table v-for="(item,index) in tableData "
 		      :data="item"
 		      style="width: 100%"
@@ -50,43 +50,37 @@ export default{
 			tableData: [[{
 	            date: '2016-7',
 	            name: '简历Demo',
-	            address: 'http://www.xpanpan.com',
+	            address: 'http://xpanpan.com/www/',
 	            state: 3
 	          }],
 	          [{
 	            date: '2016-8',
 	            name: 'Panpan之家',
-	            address: 'http://www.xpanpan.com/xpanpan7',
+	            address: 'http://xpanpan.com/www/xpanpan7',
 	            state: 3
-	          }],
-	          [{
-	            date: '2016-9',
-	            name: 'Wechat聊天室',
-	            address: 'http://github.com/hellopanpan/WeChat',
-	            state: 2
 	          }],
 	          [{
 	            date: '2016-5',
 	            name: 'qq浏览器demo',
-	            address: 'http://www.xpanpan.com/xpanpan4',
+	            address: 'http://xpanpan.com/www/xpanpan4',
 	            state: 2
 	          }],
 	          [{
 	            date: '2016-3',
 	            name: '商城demo',
-	            address: 'http://www.xpanpan.com/xpanpan1',
+	            address: 'http://xpanpan.com/www/xpanpan1',
 	            state: 1
 	          }],
 	          [{
 	            date: '2016-4',
 	            name: '小米5demo',
-	            address: 'http://www.xpanpan.com/xpanpan2',
+	            address: 'http://xpanpan.com/www/xpanpan2',
 	            state: 2
 	          }],
 	          [{
 	            date: '2016-5',
 	            name: '百度云demo',
-	            address: 'http://www.xpanpan.com/xpanpan5',
+	            address: 'http://xpanpan.com/www/xpanpan5',
 	            state: 2
 	          }],
 	         ],

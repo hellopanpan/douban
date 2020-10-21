@@ -1,34 +1,32 @@
 <template>
-	<div class="container-fluid" style="background:#fff;padding-top:20px">
-	<div class="container" style="padding-bottom:40px">
-		<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12" style="padding-bottom:20px">
+    <div class="wraper">
+		<div  >
 		    <h2 style="padding-top:0;margin-top:0px;font-family: Arial, Helvetica, sans-serif;">豆瓣視频</h2>
 		</div>
-		<div class="col-lg-10 col-md-12 col-sm-12" v-if="data.length !== 0">
-			<div class="col-md-12 " style="padding-bottom:20px">
+		<div  >
+			<div style="padding-bottom:20px">
 				<el-breadcrumb separator="/">
 					<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
 					<el-breadcrumb-item>豆瓣視频</el-breadcrumb-item>
 					<el-breadcrumb-item>如是</el-breadcrumb-item>
 				</el-breadcrumb>
 			</div>
-			<div class="col-md-4 col-md-4 col-sm-6 col-xs-6 pb-10" v-for="item in data" v-bind:key="item.uri">
-				<div class="content" style="width:100%;padding:10px" >
+			<div class="content-wrap" v-if="data.length !== 0">
+				<div class="content" v-for="item in data" v-bind:key="item.uri">
 					<div style="position: relative;cursor:pointer" class="movie_hover"  @click="goUri(item.uri)">
 						<img class="item" src="../assets/images/play.png" style="position: absolute;top:50%;left:50%;margin-left:-10px;margin-top:-12px">
 						<img class='pic' :src="item.cover" >
 					</div>
-					<p class="text-primary pt-10 auto-hide02">{{item.title}}</p>
+					<p class="pt-3 auto-title">{{item.title}}</p>
 				</div>
 			</div>
 		</div>
-	</div>
 	<el-dialog :title="dataV.title" :visible.sync="dialogTableVisible" :size="modalSize" v-if="dialogTableVisible">
-		<div class="container-fluid" v-loading="loading_video">
-			<div class="col-md-8 col-xs-12 ">
+		<div class="container-wrap" v-loading="loading_video">
+			<div class="cont-play">
 			<video :src="dataV.video" controls="controls" width="100%"></video>
 			</div>
-			<div class="col-md-4 hidden-sm hidden-xs" >
+			<div  >
 				{{dataV.introduction}}
 			</div>
 		</div>
@@ -132,32 +130,36 @@
 	.item-con{
 		height: 240rpx;
 	}
-	@media screen and (max-width: 608px) {
-		.container {
-			padding:0;
-			.content{
-				height: 180px;
-			}
-		}
-	}
+  .wraper{
+    padding: 20px 0;
+  }
+  .content-wrap{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
 	.content{
-		height: 220px;
-		.text-primary{
-			font-size: 17px;
+    width: 300px;
+    height: 220px;
+    flex: 1;
+    box-sizing: border-box;
+    padding: 0 20px;
+		.auto-title{
+			font-size: 16px;
 			font-weight: 500;
-			width: 100%;
 			text-overflow: ellipsis;
 			white-space: nowrap;
 			overflow: hidden;
 			margin-top: 20px;
 			text-align: center;
-			opacity: 0.9;
+      width: 100%;
 		}
 		.movie_hover{
-			text-align: center;
+      text-align: center;
 		}
 		.pic{
-			width: 250px;
+      width: 250px;
+      height: 140px;
 		}
 	}
 	.movie_hover:hover{

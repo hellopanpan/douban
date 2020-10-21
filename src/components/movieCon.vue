@@ -1,13 +1,10 @@
 <template>
 	<div >
 		<search @getData="getdata" @load="loading" @loadend="loadend" :tag="tag" :num="dataNum" @clickit="clickit"  v-show="showSearch" :name="tagname" :inputname ="alldata"></search>
-		<div class="container-fluid" style="padding-top:20px">
+		<div class="" style="padding-top:20px">
 
-			<div class="container" style="padding-bottom:0px;padding-top:20px">
-				<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12 " style="padding-bottom:20px">
-				<h2 style="padding-top:0;margin-top:0px;font-family: Arial, Helvetica, sans-serif;">豆瓣电影</h2>
-				</div>
-				<div class="col-lg-10 col-md-12 col-sm-12" style="min-height:400px"  v-loading="loading2" element-loading-text="拼命加载中">
+			<div class="" style="padding-bottom:0px;padding-top:20px">
+				<div class="col-lg-12 col-md-12 col-sm-12" style="min-height:400px"  v-loading="loading2" element-loading-text="拼命加载中">
 					<div class="col-md-12 " style="padding-bottom:20px"  >
 						<el-breadcrumb separator="/" >
 							<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
@@ -19,7 +16,7 @@
 
 						<div class="" style="width:100%;border:1px solid #fff ;border-radius:2px;padding:10px;min-height:200px" >
 							<div class="row">
-								<div class="col-xs-4 ">
+								<div class="col-xs-4">
 									<img :src="item.picsrc" style="width:100%">
 								</div>
 								<div class="col-xs-8">
@@ -40,9 +37,11 @@
 				</div>
 			</div>
 			<div class= "container" v-loading="loading1" v-if="yesmore">
-				<div class="col-xs-8 col-md-6 col-md-push-3 col-xs-push-2 " style="text-align:center;padding:10px;border:1px solid #eee;margin:10px;border-radius:5px;cursor:pointer;;margin-bottom:30px;background:#eee" @click="loadMore">
-					<i class="el-icon-caret-bottom"></i>
-					<span class="text-muted" style="">Load More</span>
+				<div class="col-xs-8 col-md-8 " style="" @click="loadMore">
+          <div style="text-align:center;padding:10px;border:1px solid #eee;margin:10px;border-radius:5px;cursor:pointer;;margin-bottom:30px;background:#eee">
+            <i class="el-icon-caret-bottom"></i>
+					  <span class="text-muted" style="">Load More</span>
+          </div>
 				</div>
 			</div>
 		</div>

@@ -1,10 +1,10 @@
 <template>
-	<div class="container-fluid" style="background:#fff">
-	<div class="container" style="padding-bottom:40px;padding-top:20px;">
-		<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12 " style="padding-bottom:20px">
+	<div class="" style="background:#fff">
+	<div class="" >
+		<div style="padding-bottom:20px">
 		<h2 style="padding-top:0;margin-top:0px;font-family: Arial, Helvetica, sans-serif;">豆瓣時間</h2>
 		</div>
-		<div class="col-lg-10 col-md-12 col-sm-12" style="min-height:600px"  v-loading="loading2" element-loading-text="拼命加载中">
+		<div class="" style="min-height:600px"  v-loading="loading2" element-loading-text="拼命加载中">
 			<div class="col-md-12 " style="padding-bottom:20px"  >
 				<el-breadcrumb separator="/" >
 					<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
@@ -12,16 +12,15 @@
 					<el-breadcrumb-item>热门专栏</el-breadcrumb-item>
 				</el-breadcrumb>
 			</div>
-			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 pb-10" v-for="item in data" v-bind:key="item.picsrc">
-				<div class="time">
-					<a :href="item.piclink"><img :src="item.picsrc" ></a>
-					<p class="text-primary" >{{item.title}}</p>
-					<el-badge value="new" class="item">
-						<el-button size="small">{{item.type}}</el-button>
+			<div class="time-wrap" >
+				<div class="time-item" v-for="(item, index) in data" v-bind:key="item.picsrc">
+					<a :href="item.piclink"><img class="time-pic"  :src="item.picsrc" ></a>
+					<p class="text-pri" >{{item.title}}</p>
+					<el-badge :value="index%3 ? 'new' : 'hot'" class="item-bage">
 					</el-badge>
 				</div>
 			</div>
-			<div class="col-md-12" v-if="data.length == 0">
+			<div class="" v-if="data.length == 0">
 				<h2>No data</h2>
 			</div>
 		</div>
@@ -62,15 +61,31 @@
 </script>
 
 <style lang="less" scoped>
-	@padding-size:10px;
-	.pb-10{
-		padding-bottom: @padding-size;
-	}
-	@media screen and (max-width: 608px) {
-		.container {
-			padding:0;
-		}
-	}
+  .time-wrap{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .time-item{
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+    padding: 20px;
+    .time-pic{
+      height: 180px;
+      width: 135px
+    };
+    .item-bage{
+      position: absolute;
+      right: 26px;
+      top: 20px;
+      color: #fff
+    }
+  }
 	.time{
 		text-align: center;
 		padding-bottom: 20px;
@@ -78,18 +93,17 @@
 			width: 150px;
 			height: 150*1.4px;
 		}
-		.text-primary{
-			opacity: 0.9;
-			width: 80%;
-			font-size: 17px;
-			font-weight: 500;
-			margin-top: 10px;
-			width: 100%;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			overflow: hidden;
-			text-align: center;
-		}
-	}
+		
+  }
+  .text-pri{
+    width: 100%;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: center;
+  }
 
 </style>
