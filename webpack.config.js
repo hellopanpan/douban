@@ -7,7 +7,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: './',
+    publicPath: 'http://xpanpan.com/douban/dist',
     filename: '[name].js',
   },
   module: {
