@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 DB_URL = 'mongodb://panpan:996685773@localhost:27017/douban';
-mongoose.connect(DB_URL);
+mongoose.connect(DB_URL, {useNewUrlParser: true});
 mongoose.connection.on('connected', function (err) {  
 	if(err){
 		console.log(err);
