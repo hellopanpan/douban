@@ -16,7 +16,7 @@
 					<div class="music-cont-item" v-for = "(item, key) in data" v-bind:key="item.picsrc"  >
 						<div class="music-cont-row">
 							<div  >
-								<a :href="item.piclink"><img :src="item.picIndex" ></a>
+								<a :href="item.piclink" target="_blank"><img :src="item.picIndex" ></a>
 							</div>
 							<div >
 								<p class="text-title" >{{item.title}}</p>

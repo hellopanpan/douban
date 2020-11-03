@@ -14,7 +14,7 @@
 			</div>
 			<div class="time-wrap" >
 				<div class="time-item" v-for="(item, index) in data" v-bind:key="item.picsrc">
-					<a :href="item.piclink"><img class="time-pic"  :src="item.picsrc" ></a>
+					<a :href="item.piclink" target="_blank"><img class="time-pic"  :src="item.picsrc" ></a>
 					<p class="text-pri" >{{item.title}}</p>
 					<el-badge :value="index%3 ? 'new' : 'hot'" class="item-bage">
 					</el-badge>
