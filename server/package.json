@@ -12,7 +12,7 @@
     "moment": "^2.19.1",
     "mongoose": "^4.12.1",
     "request": "^2.83.0",
-    "superagent": "^1.4.0",
+    "superagent": "^8.0.5",
     "util": "^0.10.3"
   },
   "devDependencies": {
