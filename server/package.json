@@ -16,10 +16,12 @@
     "util": "^0.10.3"
   },
   "devDependencies": {
-    "body-parser": "^1.18.2"
+    "body-parser": "^1.18.2",
+    "nodemon": "^2.0.21"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nodemon test.js",
+    "dev": "nodemon app.js"
   },
   "author": "",
   "license": "ISC"
